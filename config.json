@@ -1,0 +1,164 @@
+{
+    "title": "infoscape",
+    "pages": [
+        {
+            "title": "top",
+            "slug": "top",
+            "sources": [
+                "thebell_io",
+                "bfmnews",
+                "infomoscow24",
+
+                "banksta",
+                "AK47pfl",
+                "addmeto",
+
+
+                "legitimniy",
+                "russica2",
+                "polittemnik"
+                
+            ]
+        },
+        {
+            "title": "tech",
+            "slug": "tech",
+            "sources": [
+                "addmeto",
+                "daily_geek_news",
+                "dataleak",
+
+                "SecLabNews",
+                "TG_security"
+            ]
+        }
+    ],
+    "sources": [
+        {
+            "title": "Раньше всех. Ну почти.",
+            "id": "bbbreaking",
+            "parser": "telegram",
+            "link": "https://t.me/s/bbbreaking"
+        },
+        {
+            "title": "Московский Телеграф",
+            "id": "moskva_telegrafi",
+            "parser": "telegram",
+            "link": "https://t.me/s/moskva_telegrafi"
+        },
+        {
+            "title": "Москва 24",
+            "id": "infomoscow24",
+            "parser": "telegram",
+            "link": "https://t.me/s/infomoscow24"
+        },
+        {
+            "title": "The Bell",
+            "id": "thebell_io",
+            "parser": "telegram",
+            "link": "https://t.me/s/thebell_io"
+        },
+        {
+            "title": "БизнесФМ",
+            "id": "bfmnews",
+            "parser": "telegram",
+            "link": "https://t.me/s/bfmnews"
+        },
+        {
+            "title": "Mash",
+            "id": "breakingmash",
+            "parser": "telegram",
+            "link": "https://t.me/s/breakingmash"
+        },
+        {
+            "title": "rusbrief",
+            "id": "rusbrief",
+            "parser": "telegram",
+            "link": "https://t.me/s/rusbrief"
+        },
+        {
+            "title": "banksta",
+            "id": "banksta",
+            "parser": "telegram",
+            "link": "https://t.me/s/banksta"
+        },
+        {
+            "title": "РБК",
+            "id": "rbc_news",
+            "parser": "telegram",
+            "link": "https://t.me/s/rbc_news"
+        },
+        {
+            "title": "tjournal",
+            "id": "tjournal",
+            "parser": "telegram",
+            "link": "https://t.me/s/tjournal"
+        },
+        {
+            "title": "vcnews",
+            "id": "vcnews",
+            "parser": "telegram",
+            "link": "https://t.me/s/vcnews"
+        },
+        {
+            "title": "РИА",
+            "id": "rian_ru",
+            "parser": "telegram",
+            "link": "https://t.me/s/rian_ru"
+        },
+        {
+            "title": "addmeto",
+            "id": "addmeto",
+            "parser": "telegram",
+            "link": "https://t.me/s/addmeto"
+        },
+        {
+            "title": "dataleak",
+            "id": "dataleak",
+            "parser": "telegram",
+            "link": "https://t.me/s/dataleak"
+        },
+        {
+            "title": "SecLabNews",
+            "id": "SecLabNews",
+            "parser": "telegram",
+            "link": "https://t.me/s/SecLabNews"
+        },
+        {
+            "title": "TG_security",
+            "id": "TG_security",
+            "parser": "telegram",
+            "link": "https://t.me/s/TG_security"
+        },
+        {
+            "title": "Легитимный",
+            "id": "legitimniy",
+            "parser": "telegram",
+            "link": "https://t.me/s/legitimniy"
+        },
+        {
+            "title": "РДВ",
+            "id": "AK47pfl",
+            "parser": "telegram",
+            "link": "https://t.me/s/AK47pfl"
+        },
+        {
+            "title": "Daily Geek News",
+            "id": "daily_geek_news",
+            "parser": "telegram",
+            "link": "https://t.me/s/daily_geek_news"
+        },
+        {
+            "title": "НЕЗЫГАРЬ",
+            "id": "russica2",
+            "parser": "telegram",
+            "link": "https://t.me/s/russica2"
+        },
+        {
+            "title": "Темник",
+            "id": "polittemnik",
+            "parser": "telegram",
+            "link": "https://t.me/s/polittemnik"
+        }
+    ]
+}

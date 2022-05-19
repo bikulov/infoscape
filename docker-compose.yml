@@ -1,0 +1,10 @@
+version: "3.4"
+services:
+  infoscape:
+    build: .
+    container_name: infoscape
+    restart: always
+    volumes:
+      - infoscape-data:/data
+volumes:
+  infoscape-data:
