@@ -2,4 +2,7 @@ News aggregator (currently from telegram channels only)
 
 
 Todo:
-- [ ] several tabs with different topics
+- [x] several tabs with different topics
+- support polls
+- support video?
+- CI + linters
