@@ -1,0 +1,44 @@
+[
+    {
+        "source_id": "infoscape_test",
+        "link": "https://t.me/infoscape_test/1",
+        "timestamp": 1653419210,
+        "heading": "Channel created",
+        "text": "Channel created"
+    },
+    {
+        "source_id": "infoscape_test",
+        "link": "https://t.me/infoscape_test/2",
+        "timestamp": 1653419242,
+        "heading": "простое сообщение",
+        "text": "простое сообщение"
+    },
+    {
+        "source_id": "infoscape_test",
+        "link": "https://t.me/infoscape_test/3",
+        "timestamp": 1653419293,
+        "heading": "сообщение с картинкой",
+        "text": "сообщение с картинкой\n<img src=\"https://cdn4.telegram-cdn.org/file/JYf-qfujXX6ldi1Sxf9AnETWceXm0jGwGKM8IYm31cjx8RgchkN_HOtRdHpLiE8SnMaSE1l579NBHgQebxVqh0PcsVB7goGBFC5E0o1ACr5tBH8aQxVG1KAdnz3jvnAZMK-oCXSVxglLjsGFmzaEZoh0XjTW6jeXp_i6kHv0eYUgCbxh-Ygk1OWXSpBmZVs25DKdu05nBtcOPCmXvb3GaK6Ofu3KVgT_cdap5m6L2dKnp11823VFWEOg2jIdX4V31mj4Pshl1LBUxW3m5GBHXGdilQkf-PZcSPSj2NG9MoTYQ9VncofprbSEVuv--JbKCBDxFdQ8aobSzAAx0CD3Pw.jpg\"></img>"
+    },
+    {
+        "source_id": "infoscape_test",
+        "link": "https://t.me/infoscape_test/4",
+        "timestamp": 1653419305,
+        "heading": "ссылка на https://yandex.ru/",
+        "text": "ссылка на https://yandex.ru/"
+    },
+    {
+        "source_id": "infoscape_test",
+        "link": "https://t.me/infoscape_test/5",
+        "timestamp": 1653419397,
+        "heading": "файл",
+        "text": "файл"
+    },
+    {
+        "source_id": "infoscape_test",
+        "link": "https://t.me/infoscape_test/7",
+        "timestamp": 1653419444,
+        "heading": "ответ на сообщение",
+        "text": "ответ на сообщение\n\n> простое сообщение"
+    }
+]

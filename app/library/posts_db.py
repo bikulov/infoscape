@@ -1,5 +1,5 @@
-from dataclasses import dataclass
 import sqlite3
+from dataclasses import dataclass
 from typing import List
 
 
@@ -63,11 +63,7 @@ class PostsDb:
 
 if __name__ == "__main__":
     db = PostsDb("data/testing.sqlite")
-    db.add(
-        Post(
-            "mask", "http://yandex.ru/1", 200000000, "Тестовая запись", "abc\nddf"
-        )
-    )
+    db.add(Post("mask", "http://yandex.ru/1", 200000000, "Тестовая запись", "abc\nddf"))
 
     for a in db.select(["mask"], 4):
         print(a)

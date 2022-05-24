@@ -1,19 +1,19 @@
-from collections import namedtuple
-from typing import List
-import asyncio
-import time
-from datetime import datetime
-import logging
 import argparse
-import uvicorn
+import asyncio
+import logging
+import time
+from collections import namedtuple
+from datetime import datetime
+from typing import List
+
 import pytz
-from jinja2 import Environment, PackageLoader, select_autoescape
+import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
+from jinja2 import Environment, PackageLoader, select_autoescape
 
-from parsers import TelegramParser
 from library import Config, Post, PostsDb
-
+from parsers import TelegramParser
 
 app = FastAPI()
 config = Config.from_file_factory("config.json")
@@ -40,7 +40,7 @@ class SourceRenderer:
         if local_dt.date() != datetime.today().date():
             date = local_dt.strftime("%m.%d")
         return date
-    
+
     def render_posts(self):
         for post in self.posts:
             date = self.format_date(post.timestamp)
@@ -69,7 +69,7 @@ async def fetch(args):
             logger.info(f"sleeping {args.daemonize} seconds")
             time.sleep(args.daemonize)
         else:
-            break    
+            break
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -80,8 +80,10 @@ async def index():
         widgets.append(SourceRenderer(s.title, posts))
 
     template = env.get_template("index.html")
-  
-    return template.render(title=config.title, page_slug="", pages=config.pages.values(), widgets=widgets)
+
+    return template.render(
+        title=config.title, page_slug="", pages=config.pages.values(), widgets=widgets
+    )
 
 
 @app.get("/p/{page_slug}", response_class=HTMLResponse)
@@ -94,8 +96,13 @@ async def get_page(page_slug: str = "top"):
         widgets.append(SourceRenderer(widget_title, posts))
 
     template = env.get_template("index.html")
-  
-    return template.render(title=config.title, page_slug=page_slug, pages=config.pages.values(), widgets=widgets)
+
+    return template.render(
+        title=config.title,
+        page_slug=page_slug,
+        pages=config.pages.values(),
+        widgets=widgets,
+    )
 
 
 async def serve(args):

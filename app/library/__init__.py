@@ -1,2 +1,2 @@
 from .config import Config
-from .posts_db import PostsDb, Post
+from .posts_db import Post, PostsDb

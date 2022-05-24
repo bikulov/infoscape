@@ -1,15 +1,14 @@
 import json
-
 from typing import List
 
 
 class SourceConfig:
-    allowed_parsers = ("telegram", )
+    allowed_parsers = ("telegram",)
 
     def __init__(self, title: str, id: str, parser: str, link: str):
-        self.title = title    # Link title
-        self.id = id          # Internal unique news source name
-        self.link = link      # Link where to get news from
+        self.title = title  # Link title
+        self.id = id  # Internal unique news source name
+        self.link = link  # Link where to get news from
         self.parser = parser  # Parser kind
 
         assert self.parser in self.allowed_parsers
@@ -20,7 +19,6 @@ class SourceConfig:
             "id": self.id,
             "parser": self.parser,
             "link": self.link,
-            
         }
 
 
