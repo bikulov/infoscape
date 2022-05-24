@@ -28,8 +28,24 @@
                 "daily_geek_news",
                 "dataleak",
 
+                "antidigital",
                 "SecLabNews",
-                "TG_security"
+                "TG_security",
+
+                "smartmarket_news",
+                "mobilereviewcom"
+
+            ]
+        },
+        {
+            "title": "telecom",
+            "slug": "telecom",
+            "sources": [
+                "abloudrealtime",
+                "telesputnik",
+                "antidigital",
+
+                "vodott"
             ]
         }
     ],
@@ -159,6 +175,54 @@
             "id": "polittemnik",
             "parser": "telegram",
             "link": "https://t.me/s/polittemnik"
+        },
+        {
+            "title": "AbloudRealtime",
+            "id": "abloudrealtime",
+            "parser": "telegram",
+            "link": "https://t.me/s/abloudrealtime"
+
+        },
+        {
+            "title": "Телеспутник",
+            "id": "telesputnik",
+            "parser": "telegram",
+            "link": "https://t.me/s/telesputnik"
+
+        },
+        {
+            "title": "Нецифровая экономика",
+            "id": "antidigital",
+            "parser": "telegram",
+            "link": "https://t.me/s/antidigital"
+
+        },
+        {
+            "title": "SmartMarket by Sber",
+            "id": "smartmarket_news",
+            "parser": "telegram",
+            "link": "https://t.me/s/smartmarket_news"
+
+        },
+        {
+            "title": "Mobile-Review.com",
+            "id": "mobilereviewcom",
+            "parser": "telegram",
+            "link": "https://t.me/s/mobilereviewcom"
+
+        },
+        {
+            "title": "Авиаторщина",
+            "id": "aviatorshina",
+            "parser": "telegram",
+            "link": "https://t.me/s/aviatorshina"
+
+        },
+        {
+            "title": "VODоворOTT",
+            "id": "vodott",
+            "parser": "telegram",
+            "link": "https://t.me/s/vodott"
         }
     ]
 }
