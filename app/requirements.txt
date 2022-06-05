@@ -4,4 +4,3 @@ jinja2
 uvicorn
 fastapi
 pytz
-mypy
