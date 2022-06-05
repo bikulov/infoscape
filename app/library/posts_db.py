@@ -13,7 +13,7 @@ class Post:
 
 
 class PostsDb:
-    def __init__(self, filename: str = "data/production.sqlite"):
+    def __init__(self, filename: str = "data/production.sqlite") -> None:
         self.conn = sqlite3.connect(filename)
 
         self.conn.execute(
@@ -29,7 +29,7 @@ class PostsDb:
             """
         )
 
-    def add(self, post: Post):
+    def add(self, post: Post) -> None:
         cursor = self.conn.cursor()
         cursor.execute(
             """
@@ -59,11 +59,3 @@ class PostsDb:
             result.append(Post(source_id, link, timestamp, heading, text))
 
         return result
-
-
-if __name__ == "__main__":
-    db = PostsDb("data/testing.sqlite")
-    db.add(Post("mask", "http://yandex.ru/1", 200000000, "Тестовая запись", "abc\nddf"))
-
-    for a in db.select(["mask"], 4):
-        print(a)

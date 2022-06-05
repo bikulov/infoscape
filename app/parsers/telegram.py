@@ -1,7 +1,7 @@
-import asyncio
+from typing import List
 from asyncio.log import logger
 from datetime import datetime
-from typing import Generator, Optional
+from typing import Generator, Optional, AsyncGenerator
 
 import aiohttp
 from bs4 import BeautifulSoup, ResultSet
@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup, ResultSet
 from library import Post
 
 
-def extract_text(bs_set: ResultSet):
+def extract_text(bs_set: ResultSet) -> List[str]:
     for br in bs_set.find_all("br"):
         br.replace_with("\n")
 
@@ -23,8 +23,12 @@ def extract_text(bs_set: ResultSet):
     return lines
 
 
+class TelegramParserException(Exception):
+    pass
+
+
 class TelegramParser:
-    def __init__(self, source_id: str, link: str):
+    def __init__(self, source_id: str, link: str) -> None:
         self.source_id = source_id
         self.link = link
 
@@ -36,15 +40,19 @@ class TelegramParser:
                     return s[len("background-image:url('") : -2]
 
     @staticmethod
-    def get_timestamp(tgme_widget: ResultSet) -> Optional[int]:
+    def get_timestamp(tgme_widget: ResultSet) -> int:
         if a_date := tgme_widget.find("a", "tgme_widget_message_date"):
             dt = a_date.find("time").get("datetime")
             return int(datetime.strptime(dt, "%Y-%m-%dT%H:%M:%S%z").timestamp())
+        
+        raise TelegramParserException("Could not parse timestamp")
 
     @staticmethod
-    def get_link(tgme_widget: ResultSet) -> Optional[str]:
+    def get_link(tgme_widget: ResultSet) -> str:
         if a_date := tgme_widget.find("a", "tgme_widget_message_date"):
             return a_date.get("href")
+        
+        raise TelegramParserException("Could not parse link")
 
     @staticmethod
     def get_body(tgme_widget: ResultSet) -> Optional[str]:
@@ -82,25 +90,10 @@ class TelegramParser:
             except:
                 logger.error(f"Except while parsing {div}")
 
-    async def get_posts(self):
+    async def get_posts(self) -> AsyncGenerator[Post, None]:
         async with aiohttp.ClientSession() as session:
             async with session.get(self.link) as response:
                 html = await response.text()
 
                 for a in self.parse_html(html):
                     yield a
-
-
-if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-
-    addmeto = TelegramParser("addmeto", "https://t.me/s/addmeto")
-
-    async def get_posts_sync():
-        result = []
-        async for p in addmeto.get_posts():
-            result.append(p)
-        return result
-
-    for s in loop.run_until_complete(get_posts_sync()):
-        print(s)

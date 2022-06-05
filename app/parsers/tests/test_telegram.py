@@ -5,10 +5,10 @@ import pytest
 from bs4 import BeautifulSoup
 
 from library import Post
-from parsers.telegram import TelegramParser
+from parsers.telegram import TelegramParser, TelegramParserException
 
 
-def test_parse_html():
+def test_parse_html() -> None:
     path = os.path.dirname(__file__)
 
     with open(os.path.join(path, "tests_data", "page.html")) as fin:
@@ -37,7 +37,7 @@ def test_parse_html():
         ("""<div class="other_tag" href="#"></div>""", None),
     ),
 )
-def test_extract_image_url(html, url):
+def test_extract_image_url(html: str, url: str) -> None:
     assert TelegramParser.get_image_url(BeautifulSoup(html, "html.parser")) == url
 
 
@@ -48,11 +48,21 @@ def test_extract_image_url(html, url):
             """<a class="tgme_widget_message_date" href="#"><time datetime="2022-05-24T19:08:13+00:00" class="time">22:08</time></a>""",
             1653419293,
         ),
+    ),
+)
+def test_get_timestamp(html: str, timestamp: int) -> None:
+    assert TelegramParser.get_timestamp(BeautifulSoup(html, "html.parser")) == timestamp
+
+
+@pytest.mark.parametrize(
+    "html, timestamp",
+    (
         ("""<div class="other_tag" href="#"></div>""", None),
     ),
 )
-def test_get_timestamp(html, timestamp):
-    assert TelegramParser.get_timestamp(BeautifulSoup(html, "html.parser")) == timestamp
+def test_get_timestamp_exception(html: str, timestamp: int) -> None:
+    with pytest.raises(TelegramParserException):
+        TelegramParser.get_timestamp(BeautifulSoup(html, "html.parser"))
 
 
 @pytest.mark.parametrize(
@@ -62,8 +72,18 @@ def test_get_timestamp(html, timestamp):
             """<a class="tgme_widget_message_date" href="https://t.me/infoscape_test/3"><time datetime="2022-05-24T19:08:13+00:00" class="time">22:08</time></a>""",
             "https://t.me/infoscape_test/3",
         ),
+    ),
+)
+def test_get_link(html: str, link: str) -> None:
+    assert TelegramParser.get_link(BeautifulSoup(html, "html.parser")) == link
+
+
+@pytest.mark.parametrize(
+    "html, link",
+    (
         ("""<a class="other_tag" href="https://t.me/infoscape_test/3"></a>""", None),
     ),
 )
-def test_get_link(html, link):
-    assert TelegramParser.get_link(BeautifulSoup(html, "html.parser")) == link
+def test_get_link_exception(html: str, link: str) -> None:
+    with pytest.raises(TelegramParserException):
+        TelegramParser.get_link(BeautifulSoup(html, "html.parser"))

@@ -4,7 +4,7 @@ import logging
 import time
 from collections import namedtuple
 from datetime import datetime
-from typing import List
+from typing import List, Generator
 
 import pytz
 import uvicorn
@@ -27,13 +27,13 @@ RenderedPost = namedtuple("RenderedPost", ["date", "link", "summary", "html"])
 
 
 class SourceRenderer:
-    def __init__(self, heading: str, posts: List[Post]):
+    def __init__(self, heading: str, posts: List[Post]) -> None:
         self.heading = heading
         self.posts = posts
 
     @staticmethod
-    def format_date(timestamp):
-        utc_dt = datetime.fromtimestamp(int(timestamp), pytz.utc)
+    def format_date(timestamp: int) -> str:
+        utc_dt = datetime.fromtimestamp(timestamp, pytz.utc)
         msk = pytz.timezone("Europe/Moscow")
         local_dt = utc_dt.astimezone(msk)
         date = local_dt.strftime("%H:%M")
@@ -41,7 +41,7 @@ class SourceRenderer:
             date = local_dt.strftime("%m.%d")
         return date
 
-    def render_posts(self):
+    def render_posts(self) -> Generator[RenderedPost, None, None]:
         for post in self.posts:
             date = self.format_date(post.timestamp)
             link = post.link
@@ -53,7 +53,7 @@ class SourceRenderer:
             yield RenderedPost(date, link, summary, html)
 
 
-async def fetch(args):
+async def fetch(args: argparse.Namespace) -> None:
     while True:
         for source in config.sources.values():
             logger.info(f"fetching {source.id}")
@@ -73,7 +73,7 @@ async def fetch(args):
 
 
 @app.get("/", response_class=HTMLResponse)
-async def index():
+async def index() -> str:
     widgets = []
     for s in config.sources.values():
         posts = db.select([s.id], 10)
@@ -87,7 +87,7 @@ async def index():
 
 
 @app.get("/p/{page_slug}", response_class=HTMLResponse)
-async def get_page(page_slug: str = "top"):
+async def get_page(page_slug: str = "top") -> str:
     page = config.pages[page_slug]
     widgets = []
     for s in page.sources:
@@ -105,11 +105,11 @@ async def get_page(page_slug: str = "top"):
     )
 
 
-async def serve(args):
+async def serve(args: argparse.Namespace) -> None:
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, workers=3)
 
 
-async def main():
+async def main() -> None:
     parser = argparse.ArgumentParser(prog="infoscape")
     parser.add_argument("--config", default="config.json", help="App configuration")
     subparsers = parser.add_subparsers(help="mode")
