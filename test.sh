@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 mypy \
+    --install-types \
     --ignore-missing-imports \
     --disallow-untyped-defs \
     --disallow-incomplete-defs \
