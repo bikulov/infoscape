@@ -1,1 +1,1 @@
-from .telegram import TelegramParser
+from .telegram import TelegramParser, TelegramParserException  # noqa

@@ -29,7 +29,8 @@ def test_parse_html() -> None:
     "html, url",
     (
         (
-            """<a class="tgme_widget_message_photo_wrap 123 45_67" href="#" style="width:794px;background-image:url('https://cdn4.telegram-cdn.org/file/JYf.jpg')">
+            """<a class="tgme_widget_message_photo_wrap 123 45_67" href="#"
+            style="width:794px;background-image:url('https://cdn4.telegram-cdn.org/file/JYf.jpg')">
                 <div class="tgme_widget_message_photo" style="padding-top:48.110831234257%"></div>
             </a>""",
             "https://cdn4.telegram-cdn.org/file/JYf.jpg",
@@ -45,7 +46,8 @@ def test_extract_image_url(html: str, url: str) -> None:
     "html, timestamp",
     (
         (
-            """<a class="tgme_widget_message_date" href="#"><time datetime="2022-05-24T19:08:13+00:00" class="time">22:08</time></a>""",
+            """<a class="tgme_widget_message_date" href="#"><time
+            datetime="2022-05-24T19:08:13+00:00" class="time">22:08</time></a>""",
             1653419293,
         ),
     ),
@@ -69,7 +71,8 @@ def test_get_timestamp_exception(html: str, timestamp: int) -> None:
     "html, link",
     (
         (
-            """<a class="tgme_widget_message_date" href="https://t.me/infoscape_test/3"><time datetime="2022-05-24T19:08:13+00:00" class="time">22:08</time></a>""",
+            """<a class="tgme_widget_message_date" href="https://t.me/infoscape_test/3">
+            <time datetime="2022-05-24T19:08:13+00:00" class="time">22:08</time></a>""",
             "https://t.me/infoscape_test/3",
         ),
     ),

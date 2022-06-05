@@ -37,21 +37,21 @@ class TelegramParser:
         if image_a := tgme_widget.find("a", "tgme_widget_message_photo_wrap"):
             for s in image_a.get("style").split(";"):
                 if s.startswith("background-image"):
-                    return s[len("background-image:url('") : -2]
+                    return s[len("background-image:url('"): -2]
 
     @staticmethod
     def get_timestamp(tgme_widget: ResultSet) -> int:
         if a_date := tgme_widget.find("a", "tgme_widget_message_date"):
             dt = a_date.find("time").get("datetime")
             return int(datetime.strptime(dt, "%Y-%m-%dT%H:%M:%S%z").timestamp())
-        
+
         raise TelegramParserException("Could not parse timestamp")
 
     @staticmethod
     def get_link(tgme_widget: ResultSet) -> str:
         if a_date := tgme_widget.find("a", "tgme_widget_message_date"):
             return a_date.get("href")
-        
+
         raise TelegramParserException("Could not parse link")
 
     @staticmethod
@@ -64,7 +64,7 @@ class TelegramParser:
             posts = []
             line_prefix = ""
             for lines in messages[::-1]:
-                posts.append("\n".join(f"{line_prefix}{l}" for l in lines))
+                posts.append("\n".join(f"{line_prefix}{line}" for line in lines))
                 line_prefix = ">" + line_prefix if line_prefix else "> "
 
             return "\n\n".join(posts)
@@ -87,7 +87,7 @@ class TelegramParser:
                     text += f'\n<img src="{image_url}"></img>'
 
                 yield Post(self.source_id, link, timestamp, heading, text)
-            except:
+            except TelegramParserException:
                 logger.error(f"Except while parsing {div}")
 
     async def get_posts(self) -> AsyncGenerator[Post, None]:

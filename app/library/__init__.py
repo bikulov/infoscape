@@ -1,2 +1,2 @@
-from .config import Config
-from .posts_db import Post, PostsDb
+from .config import Config  # noqa
+from .posts_db import Post, PostsDb  # noqa

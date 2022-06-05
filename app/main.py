@@ -13,7 +13,7 @@ from fastapi.responses import HTMLResponse
 from jinja2 import Environment, PackageLoader, select_autoescape
 
 from library import Config, Post, PostsDb
-from parsers import TelegramParser
+from parsers import TelegramParser, TelegramParserException
 
 app = FastAPI()
 config = Config.from_file_factory("config.json")
@@ -60,9 +60,9 @@ async def fetch(args: argparse.Namespace) -> None:
             if source.parser == "telegram":
                 try:
                     parser = TelegramParser(source.id, source.link)
-                    async for Post in parser.get_posts():
-                        db.add(Post)
-                except:
+                    async for post in parser.get_posts():
+                        db.add(post)
+                except TelegramParserException:
                     logger.exception(f"Error while fetching source {source.id}")
 
         if args.daemonize > 0:
