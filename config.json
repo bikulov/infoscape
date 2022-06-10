@@ -32,7 +32,6 @@
                 "SecLabNews",
                 "TG_security",
 
-                "smartmarket_news",
                 "mobilereviewcom"
 
             ]
@@ -206,13 +205,6 @@
             "id": "antidigital",
             "parser": "telegram",
             "link": "https://t.me/s/antidigital"
-
-        },
-        {
-            "title": "SmartMarket by Sber",
-            "id": "smartmarket_news",
-            "parser": "telegram",
-            "link": "https://t.me/s/smartmarket_news"
 
         },
         {

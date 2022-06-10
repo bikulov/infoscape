@@ -31,8 +31,9 @@ RenderedPost = namedtuple("RenderedPost", ["date", "link", "summary", "html"])
 
 
 class SourceRenderer:
-    def __init__(self, heading: str, posts: List[Post]) -> None:
+    def __init__(self, heading: str, link: str, posts: List[Post]) -> None:
         self.heading = heading
+        self.link = link
         self.posts = posts
 
     @staticmethod
@@ -81,7 +82,7 @@ async def index() -> str:
     widgets = []
     for s in config.sources.values():
         posts = db.select([s.id], 10)
-        widgets.append(SourceRenderer(s.title, posts))
+        widgets.append(SourceRenderer(heading=s.title, link=s.link, posts=posts))
 
     template = env.get_template("index.html")
 
@@ -97,7 +98,8 @@ async def get_page(page_slug: str = "top") -> str:
     for s in page.sources:
         posts = db.select([s], 10)
         widget_title = config.sources[s].title
-        widgets.append(SourceRenderer(widget_title, posts))
+        link = config.sources[s].link
+        widgets.append(SourceRenderer(heading=widget_title, link=link, posts=posts))
 
     template = env.get_template("index.html")
 

@@ -81,7 +81,12 @@ class TelegramParser:
 
                 if body := self.get_body(div):
                     text = body
-                    heading = text.splitlines()[0]
+                    heading = [0]
+                    for line in body.splitlines():
+                        #  try to find better heading (not single tag on the line)
+                        if len(line.split()) > 1 and not line.startswith("#"):
+                            heading = line
+                            break
 
                 if image_url := self.get_image_url(div):
                     text += f'\n<img src="{image_url}"></img>'
