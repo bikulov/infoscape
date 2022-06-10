@@ -10,7 +10,7 @@
                 "infomoscow24",
 
                 "banksta",
-                "AK47pfl",
+                "finkrolik",
                 "addmeto",
 
 
@@ -46,6 +46,17 @@
                 "antidigital",
 
                 "vodott"
+            ]
+        },
+        {
+            "title": "fin",
+            "slug": "fin",
+            "sources": [
+                "banksta",
+                "bitkogan",
+                "finkrolik",
+
+                "AK47pfl"
             ]
         }
     ],
@@ -223,6 +234,18 @@
             "id": "vodott",
             "parser": "telegram",
             "link": "https://t.me/s/vodott"
+        },
+        {
+            "title": "bitkogan",
+            "id": "bitkogan",
+            "parser": "telegram",
+            "link": "https://t.me/s/bitkogan"
+        },
+        {
+            "title": "Кролик с Неглинной",
+            "id": "finkrolik",
+            "parser": "telegram",
+            "link": "https://t.me/s/finkrolik"
         }
     ]
 }
