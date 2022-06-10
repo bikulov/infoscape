@@ -1,0 +1,20 @@
+html {
+    font-size: 1rem;
+}
+
+.tooltip-inner {
+    max-width: 50rem !important;
+    background-color: #333;
+    text-align: left;
+}
+
+.tooltip-inner img {
+    max-width: 50%;
+    display: block;
+    margin: auto;
+}
+
+.nav-pills .active a,
+.nav-pills .active a:hover {
+    background-color: grey;
+}

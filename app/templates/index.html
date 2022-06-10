@@ -2,55 +2,37 @@
 <html lang="ru">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <style>
-    html {
-        font-size: 1rem;
-    }
-    .tooltip-inner {
-        max-width: 50rem !important;
-        background-color: #333;
-        text-align: left;
-    }
-    .tooltip-inner img {
-        max-width: 50%;
-        display: block;
-        margin: auto;
-    }
-    </style>
-
+    <link href="/static/bootstrap.min.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/static/style.css" rel="stylesheet" type="text/css" media="all">
+    <script src="/static/bootstrap.bundle.min.js"></script>
     <title>{{title}}</title>
 </head>
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<body class="bg-secondary bg-opacity-10">
+    <nav class="navbar navbar-dark bg-dark">
         <div class="mx-auto">
-            <a class="navbar-brand" href="/">{{title}}</a>
+            <a class="navbar-brand" href="/">
+                <img src="/static/logo.png" width="30" height="30" alt="">
+            </a>
         </div>
         <div class="mx-auto">
-            <ul class="nav nav-pills nav-fill">
-                {% for page in pages %}
+            <ul class="nav nav-pills">
+                {% for page in pages %} 
                 <li class="nav-item">
-                  <a class="nav-link {% if page_slug == page.slug %} active {% endif %}" href="/p/{{page.slug}}">{{page.title}}</a>
+                  <a class="nav-link {% if page_slug == page.slug %}active{% endif %}" href="/p/{{page.slug}}">{{page.title}}</a>
                 </li>
                 {% endfor %}
               </ul>
         </div>
     </nav>
-    <div class="container-fluid bg-secondary bg-opacity-10">
+    <div class="container-fluid">
         <div class="row">
             {% for widget in widgets %}
             <div class="col-lg-4 col-md-6 col-sm-12 p-1">
-                <div class="bg-light text-dark bg-opacity-30 rounded border p-2">
-                    <div class="text-center">
-                        <small class="text-uppercase fw-bold">{{widget.heading}}</small>
-                    </div>
+                <div class="bg-light rounded border p-2">
+                    <div class="text-center text-uppercase">{{widget.heading}}</div>
                     {% for post in widget.render_posts() %}
                     <span class="text-truncate d-block" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="{{post.html}}">
                         <small><a href="{{post.link}}" class="font-monospace text-secondary">{{post.date}}</a></small>
@@ -62,12 +44,11 @@
             {% endfor %}
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script>
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
+        var tooltip_trigger_list = [].slice.call(document.querySelectorAll("[data-bs-toggle=\"tooltip\"]"));
+        tooltip_trigger_list.map(function (el) {
+            return new bootstrap.Tooltip(el)
+        });
     </script>
 </body>
 

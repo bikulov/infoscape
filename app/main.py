@@ -1,4 +1,5 @@
 import argparse
+import os
 import asyncio
 import logging
 import time
@@ -10,12 +11,15 @@ import pytz
 import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from jinja2 import Environment, PackageLoader, select_autoescape
 
 from library import Config, Post, PostsDb
 from parsers import TelegramParser, TelegramParserException
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory=os.path.join(os.path.dirname(__file__), "static")), name="static")
+
 config = Config.from_file_factory("config.json")
 logger = logging.getLogger("infoscape")
 db = PostsDb()
