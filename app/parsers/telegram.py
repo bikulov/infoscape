@@ -81,9 +81,9 @@ class TelegramParser:
 
                 if body := self.get_body(div):
                     text = body
-                    heading = None
+                    heading = ""
                     for line in body.splitlines():
-                        if heading is None:
+                        if not heading:
                             heading = line
                         #  try to find better heading (not single tag on the line)
                         if len(line.split()) > 1 and not line.startswith("#"):
