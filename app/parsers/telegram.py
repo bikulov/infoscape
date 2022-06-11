@@ -17,7 +17,7 @@ def extract_text(bs_set: ResultSet) -> List[str]:
 
     lines = []
     for line in text.splitlines():
-        if fixed_line := " ".join(line.strip().split()):
+        if fixed_line := " ".join(line.replace("\u200b", "").strip().split()):
             lines.append(fixed_line)
 
     return lines
@@ -81,8 +81,10 @@ class TelegramParser:
 
                 if body := self.get_body(div):
                     text = body
-                    heading = [0]
+                    heading = None
                     for line in body.splitlines():
+                        if heading is None:
+                            heading = line
                         #  try to find better heading (not single tag on the line)
                         if len(line.split()) > 1 and not line.startswith("#"):
                             heading = line

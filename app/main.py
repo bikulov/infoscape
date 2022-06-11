@@ -53,7 +53,7 @@ class SourceRenderer:
 
             text = post.text.splitlines()
             html = "<br>".join(text)
-            summary = text[0]
+            summary = post.heading
 
             yield RenderedPost(date, link, summary, html)
 
