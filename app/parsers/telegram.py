@@ -76,16 +76,16 @@ class TelegramParser:
             try:
                 timestamp = self.get_timestamp(div)
                 link = self.get_link(div)
-                text = self.source_id
-                heading = text
+                text = ""
+                heading = ""
 
                 if body := self.get_body(div):
                     text = body
-                    heading = ""
                     for line in body.splitlines():
                         #  try to find better heading (not single tag on the line)
-                        if not heading or (len(line.split()) > 1 and not line.startswith("#")):
+                        if not heading or (heading.startswith("#") and len(heading.split()) < 3):
                             heading = line
+                        else:
                             break
 
                 if image_url := self.get_image_url(div):
