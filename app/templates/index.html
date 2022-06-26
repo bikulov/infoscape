@@ -14,21 +14,17 @@
 </head>
 
 <body class="bg-secondary bg-opacity-10">
-    <nav class="navbar navbar-dark bg-dark">
-        <div class="mx-auto">
-            <a class="navbar-brand" href="/">
-                <img src="/static/logo.png" width="32" height="32" alt="logo">
-            </a>
-        </div>
-        <div class="mx-auto">
-            <ul class="nav nav-pills">
-                {% for page in pages %} 
-                <li class="nav-item">
-                  <a class="nav-link {% if page_slug == page.slug %}active{% endif %}" href="/p/{{page.slug}}">{{page.title}}</a>
-                </li>
-                {% endfor %}
-              </ul>
-        </div>
+    <nav class="navbar navbar-dark bg-dark p-0">
+        <a class="navbar-brand" href="/">
+            <img class="ms-3" src="/static/logo.png" width="32" height="32" alt="logo">
+        </a>
+        <ul class="nav nav-pills justify-content-end">
+            {% for page in pages %} 
+            <li class="nav-item">
+                <a class="text-light nav-link {% if page_slug == page.slug %}active{% endif %}" href="/p/{{page.slug}}">{{page.title}}</a>
+            </li>
+            {% endfor %}
+        </ul>
     </nav>
     <div class="container-fluid">
         <div class="row">
