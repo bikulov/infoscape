@@ -13,7 +13,6 @@
                 "finkrolik",
                 "addmeto",
 
-
                 "legitimniy",
                 "russica2",
                 "polittemnik"
@@ -26,14 +25,14 @@
             "sources": [
                 "addmeto",
                 "daily_geek_news",
-                "dataleak",
+                "ftsec",
 
+                "dataleak",
                 "antidigital",
                 "SecLabNews",
+
                 "TG_security",
-
                 "mobilereviewcom"
-
             ]
         },
         {
@@ -67,10 +66,10 @@
             "link": "https://t.me/s/bbbreaking"
         },
         {
-            "title": "Московский Телеграф",
-            "id": "moskva_telegrafi",
+            "title": "42 секунды",
+            "id": "ftsec",
             "parser": "telegram",
-            "link": "https://t.me/s/moskva_telegrafi"
+            "link": "https://t.me/s/ftsec"
         },
         {
             "title": "Москва 24",
