@@ -36,6 +36,8 @@
                     <span class="text-truncate d-block" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="{{post.html}}">
                         <small><a href="{{post.link}}" class="font-monospace text-secondary">{{post.date}}</a></small>
                         {{post.summary|safe}}
+                        <!-- to prevent second hover in Safari -->
+                        <div></div>
                     </span>
                     {% endfor %}
                 </div>
