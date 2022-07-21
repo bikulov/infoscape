@@ -3,18 +3,15 @@ import os
 import asyncio
 import logging
 import time
-from collections import namedtuple
-from datetime import datetime
-from typing import List, Generator
 
-import pytz
+
 import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from jinja2 import Environment, PackageLoader, select_autoescape
 
-from library import Config, Post, PostsDb
+from library import Config, PostsDb, SourceRenderer
 from parsers import TelegramParser, TelegramParserException
 
 app = FastAPI()
@@ -26,36 +23,6 @@ db = PostsDb()
 
 
 env = Environment(loader=PackageLoader("main"), autoescape=select_autoescape())
-
-RenderedPost = namedtuple("RenderedPost", ["date", "link", "summary", "html"])
-
-
-class SourceRenderer:
-    def __init__(self, heading: str, link: str, posts: List[Post]) -> None:
-        self.heading = heading
-        self.link = link
-        self.posts = posts
-
-    @staticmethod
-    def format_date(timestamp: int) -> str:
-        utc_dt = datetime.fromtimestamp(timestamp, pytz.utc)
-        msk = pytz.timezone("Europe/Moscow")
-        local_dt = utc_dt.astimezone(msk)
-        date = local_dt.strftime("%H:%M")
-        if local_dt.date() != datetime.today().date():
-            date = local_dt.strftime("%m.%d")
-        return date
-
-    def render_posts(self) -> Generator[RenderedPost, None, None]:
-        for post in self.posts:
-            date = self.format_date(post.timestamp)
-            link = post.link
-
-            text = post.text.splitlines()
-            html = "<br>".join(text)
-            summary = post.heading
-
-            yield RenderedPost(date, link, summary, html)
 
 
 async def fetch(args: argparse.Namespace) -> None:
@@ -79,29 +46,38 @@ async def fetch(args: argparse.Namespace) -> None:
 
 @app.get("/", response_class=HTMLResponse)
 async def index() -> str:
-    widgets = []
-    for s in config.sources.values():
-        posts = db.select([s.id], 10)
-        widgets.append(SourceRenderer(heading=s.title, link=s.link, posts=posts))
-
+    source_renderer = SourceRenderer()
     template = env.get_template("index.html")
 
+    widgets = []
+    for s in config.sources.values():
+        widgets.append(source_renderer(
+            heading=s.title,
+            link=s.link,
+            posts=db.select([s.id], 10)
+        ))
+
     return template.render(
-        title=config.title, page_slug="", pages=config.pages.values(), widgets=widgets
+        title=config.title,
+        page_slug="/",
+        pages=config.pages.values(),
+        widgets=widgets,
     )
 
 
 @app.get("/p/{page_slug}", response_class=HTMLResponse)
 async def get_page(page_slug: str = "top") -> str:
+    source_renderer = SourceRenderer()
+    template = env.get_template("index.html")
+
     page = config.pages[page_slug]
     widgets = []
     for s in page.sources:
-        posts = db.select([s], 10)
-        widget_title = config.sources[s].title
-        link = config.sources[s].link
-        widgets.append(SourceRenderer(heading=widget_title, link=link, posts=posts))
-
-    template = env.get_template("index.html")
+        widgets.append(source_renderer(
+            heading=config.sources[s].title,
+            link=config.sources[s].link,
+            posts=db.select([s], 10)
+        ))
 
     return template.render(
         title=config.title,

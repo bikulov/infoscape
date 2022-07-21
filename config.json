@@ -31,8 +31,9 @@
                 "antidigital",
                 "SecLabNews",
 
-                "TG_security",
-                "mobilereviewcom"
+                "mobilereviewcom",
+                "opennet_ru",
+                "best_of_lor"
             ]
         },
         {
@@ -150,12 +151,6 @@
             "link": "https://t.me/s/SecLabNews"
         },
         {
-            "title": "TG_security",
-            "id": "TG_security",
-            "parser": "telegram",
-            "link": "https://t.me/s/TG_security"
-        },
-        {
             "title": "Легитимный",
             "id": "legitimniy",
             "parser": "telegram",
@@ -237,6 +232,18 @@
             "id": "finkrolik",
             "parser": "telegram",
             "link": "https://t.me/s/finkrolik"
+        },
+        {
+            "title": "opennet.ru",
+            "id": "opennet_ru",
+            "parser": "telegram",
+            "link": "https://t.me/s/opennet_ru"
+        },
+        {
+            "title": "Linux.org.ru",
+            "id": "best_of_lor",
+            "parser": "telegram",
+            "link": "https://t.me/s/best_of_lor"
         }
     ]
 }

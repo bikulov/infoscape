@@ -46,10 +46,32 @@ class PostsDb:
             """
             SELECT source_id, link, timestamp, heading, text
             FROM posts
-            WHERE source_id IN (?) ORDER BY timestamp DESC
+            WHERE source_id IN (?)
+            ORDER BY timestamp DESC
             LIMIT ?
             """,
             (", ".join(source_ids), limit),
+        )
+
+        result = []
+        for row in cursor.fetchmany(limit):
+            source_id, link, timestamp, heading, text = row
+            timestamp = int(timestamp)
+            result.append(Post(source_id, link, timestamp, heading, text))
+
+        return result
+
+    def select_keyword(self, word: str, limit: int = 100) -> List[Post]:
+        cursor = self.conn.cursor()
+        cursor.execute(
+            """
+            SELECT source_id, link, timestamp, heading, text
+            FROM posts
+            WHERE (?) IN text COLLATE NOCASE
+            ORDER BY timestamp DESC
+            LIMIT ?
+            """,
+            (word, limit),
         )
 
         result = []
