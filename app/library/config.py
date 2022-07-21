@@ -37,8 +37,9 @@ class PageConfig:
 
 
 class Config:
-    def __init__(self, title: str, pages: List[dict], sources: List[dict]) -> None:
+    def __init__(self, title: str, keywords: List[str], pages: List[dict], sources: List[dict]) -> None:
         self.title = title
+        self.keywords = keywords
         self.pages = {p["slug"]: PageConfig(**p) for p in pages}
         self.sources = {s["id"]: SourceConfig(**s) for s in sources}
 

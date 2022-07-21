@@ -46,7 +46,7 @@ async def fetch(args: argparse.Namespace) -> None:
 
 @app.get("/", response_class=HTMLResponse)
 async def index() -> str:
-    source_renderer = SourceRenderer()
+    source_renderer = SourceRenderer(config.keywords)
     template = env.get_template("index.html")
 
     widgets = []
@@ -67,7 +67,7 @@ async def index() -> str:
 
 @app.get("/p/{page_slug}", response_class=HTMLResponse)
 async def get_page(page_slug: str = "top") -> str:
-    source_renderer = SourceRenderer()
+    source_renderer = SourceRenderer(config.keywords)
     template = env.get_template("index.html")
 
     page = config.pages[page_slug]
