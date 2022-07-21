@@ -35,7 +35,6 @@ class PostRenderer:
 
         for kw in self.keywords:
             heading = re.sub(kw, f"<mark>{kw}</mark>", heading, flags=re.IGNORECASE)
-            text = re.sub(kw, f"<mark>{kw}</mark>", text, flags=re.IGNORECASE)
 
         html = "<br>".join(text.splitlines())
 
