@@ -8,6 +8,7 @@ from .posts_db import Post
 
 
 RenderedPost = namedtuple("RenderedPost", ["date", "link", "summary", "html"])
+RenderedSource = namedtuple("RenderedSource", ["heading", "link", "posts"])
 
 
 class PostRenderer:
@@ -21,7 +22,7 @@ class PostRenderer:
             date = local_dt.strftime("%m.%d")
         return date
 
-    def __call__(self, post: Post):
+    def __call__(self, post: Post) -> RenderedPost:
         date = self.format_date(post.timestamp)
 
         text = post.text.splitlines()
@@ -35,10 +36,8 @@ class PostRenderer:
         )
 
 
-RenderedSource = namedtuple("RenderedSource", ["heading", "link", "posts"])
-
 class SourceRenderer:
-    def __call__(self, heading: str, link: str, posts: List[Post]) -> None:
+    def __call__(self, heading: str, link: str, posts: List[Post]) -> RenderedSource:
         post_renderer = PostRenderer()
 
         return RenderedSource(
