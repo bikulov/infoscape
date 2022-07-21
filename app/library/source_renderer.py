@@ -9,7 +9,7 @@ from collections import namedtuple
 from .posts_db import Post
 
 
-RenderedPost = namedtuple("RenderedPost", ["date", "link", "summary", "html"])
+RenderedPost = namedtuple("RenderedPost", ["date", "is_fresh", "link", "summary", "html"])
 RenderedSource = namedtuple("RenderedSource", ["heading", "link", "posts"])
 
 
@@ -18,17 +18,19 @@ class PostRenderer:
         self.keywords = keywords
 
     @staticmethod
-    def format_date(timestamp: int) -> str:
+    def get_msk_date(timestamp: int) -> str:
         utc_dt = datetime.fromtimestamp(timestamp, pytz.utc)
         msk = pytz.timezone("Europe/Moscow")
         local_dt = utc_dt.astimezone(msk)
-        date = local_dt.strftime("%H:%M")
-        if local_dt.date() != datetime.today().date():
-            date = local_dt.strftime("%m.%d")
-        return date
+        return local_dt
 
     def __call__(self, post: Post) -> RenderedPost:
-        date = self.format_date(post.timestamp)
+        local_dt = self.get_msk_date(post.timestamp)
+        is_fresh = (local_dt.date() == datetime.today().date())
+
+        date = local_dt.strftime("%m.%d")
+        if is_fresh:
+            date = local_dt.strftime("%H:%M")
 
         heading = post.heading
         text = post.text
@@ -40,6 +42,7 @@ class PostRenderer:
 
         return RenderedPost(
             date=date,
+            is_fresh=is_fresh,
             link=post.link,
             summary=heading,
             html=html

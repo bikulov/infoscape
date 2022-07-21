@@ -34,7 +34,7 @@
                     <div class="text-center text-uppercase"><a href="{{widget.link}}" class="text-decoration-none">{{widget.heading|safe}}</a></div>
                     {% for post in widget.posts %}
                     <span class="text-truncate d-block" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="{{post.html}}">
-                        <small><a href="{{post.link}}" class="font-monospace text-secondary">{{post.date}}</a></small>
+                        <small><a href="{{post.link}}" class="font-monospace {% if post.is_fresh %}text-success{% else %}text-secondary{% endif %}">{{post.date}}</a></small>
                         {{post.summary|safe}}
                         <!-- to prevent second hover in Safari -->
                         <div></div>
