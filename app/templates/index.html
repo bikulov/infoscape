@@ -21,7 +21,7 @@
         <ul class="nav nav-pills justify-content-end">
             {% for page in pages %} 
             <li class="nav-item">
-                <a class="text-light nav-link {% if page_slug == page.slug %}active{% endif %}" href="/p/{{page.slug}}">{{page.title}}</a>
+                <a class="text-light rounded-0 nav-link {% if page_slug == page.slug %}active{% endif %}" href="/p/{{page.slug}}">{{page.title}}</a>
             </li>
             {% endfor %}
         </ul>

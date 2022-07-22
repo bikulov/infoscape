@@ -25,7 +25,6 @@
                 "legitimniy",
                 "russica2",
                 "polittemnik"
-                
             ]
         },
         {
@@ -42,17 +41,10 @@
 
                 "mobilereviewcom",
                 "opennet_ru",
-                "best_of_lor"
-            ]
-        },
-        {
-            "title": "telecom",
-            "slug": "telecom",
-            "sources": [
+                "best_of_lor",
+
                 "abloudrealtime",
                 "telesputnik",
-                "antidigital",
-
                 "vodott"
             ]
         },
@@ -64,7 +56,13 @@
                 "bitkogan",
                 "finkrolik",
 
-                "AK47pfl"
+                "AK47pfl",
+                "trubapodneglinnoy",
+                "headlines_for_traders",
+
+                "fatcat18",
+                "bankser",
+                "centralbank_russia"
             ]
         }
     ],
@@ -253,6 +251,36 @@
             "id": "best_of_lor",
             "parser": "telegram",
             "link": "https://t.me/s/best_of_lor"
+        },
+        {
+            "title": "Труба под Неглинной",
+            "id": "trubapodneglinnoy",
+            "parser": "telegram",
+            "link": "https://t.me/s/trubapodneglinnoy"
+        },
+        {
+            "title": "headlines",
+            "id": "headlines_for_traders",
+            "parser": "telegram",
+            "link": "https://t.me/s/headlines_for_traders"
+        },
+        {
+            "title": "Жирные коты",
+            "id": "fatcat18",
+            "parser": "telegram",
+            "link": "https://t.me/s/fatcat18"
+        },
+        {
+            "title": "Деньги в банкe",
+            "id": "bankser",
+            "parser": "telegram",
+            "link": "https://t.me/s/bankser"
+        },
+        {
+            "title": "Банк России",
+            "id": "centralbank_russia",
+            "parser": "telegram",
+            "link": "https://t.me/s/centralbank_russia"
         }
     ]
 }

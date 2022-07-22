@@ -18,7 +18,7 @@ class PostRenderer:
         self.keywords = keywords
 
     @staticmethod
-    def get_msk_date(timestamp: int) -> str:
+    def get_msk_date(timestamp: int) -> datetime:
         utc_dt = datetime.fromtimestamp(timestamp, pytz.utc)
         msk = pytz.timezone("Europe/Moscow")
         local_dt = utc_dt.astimezone(msk)
