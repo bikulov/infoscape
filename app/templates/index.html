@@ -4,59 +4,48 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="/static/bootstrap.min.css" rel="stylesheet" type="text/css" media="all">
     <link href="/static/style.css" rel="stylesheet" type="text/css" media="all">
-    <script src="/static/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="/static/popup.js"></script>
     <link rel="apple-touch-icon" href="/static/logo.png" type="image/png">
     <link rel="icon" href="/static/logo.svg" type="image/svg+xml">
     <link rel="icon" href="/static/logo.png" type="image/png">
     <title>{{title}}</title>
 </head>
 
-<body class="bg-secondary bg-opacity-10">
-    <nav class="navbar navbar-dark bg-dark p-0">
-        <a class="navbar-brand" href="/">
-            <img class="ms-3" src="/static/logo.png" width="32" height="32" alt="logo">
-        </a>
-        <ul class="nav nav-pills justify-content-end">
-            {% for page in pages %} 
-            <li class="nav-item">
-                <a class="text-light rounded-0 nav-link {% if page_slug == page.slug %}active{% endif %}" href="/p/{{page.slug}}">{{page.title}}</a>
+<body>
+    <nav class="navbar">
+        <a class="navbar-brand" href="/"><img src="/static/logo.png" alt="logo"></a>
+        <ul class="navbar-menu">
+            {% for page in pages %}
+            <li class="navbar-menu-item {% if page_slug == page.slug %}active{% endif %}">
+                <a href="/p/{{page.slug}}">{{page.title}}</a>
             </li>
             {% endfor %}
         </ul>
     </nav>
-    <div class="container-fluid">
-        <div class="row">
-            {% for widget in widgets %}
-            <div class="col-lg-4 col-md-6 col-sm-12 p-1">
-                <div class="bg-light rounded border p-2">
-                    <div class="text-center text-uppercase"><a href="{{widget.link}}" class="text-decoration-none">{{widget.heading|safe}}</a></div>
-                    {% for post in widget.posts %}
-                    <span class="text-truncate d-block" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="{{post.html}}">
-                        <small><a href="{{post.link}}" class="font-monospace {% if post.is_fresh %}text-success{% else %}text-secondary{% endif %}">{{post.date}}</a></small>
-                        {{post.summary|safe}}
-                        <!-- to prevent second hover in Safari -->
-                        <div></div>
-                    </span>
-                    {% endfor %}
-                </div>
+    <div class="popup" id="popup"></div>
+    <div class="container">
+        {% for widget in widgets %}
+        <div class="widget">
+            <div class="widget-inner">
+                <a href="{{widget.link}}" class="widget-title">{{widget.heading|safe}}</a>
+                {% for post in widget.posts %}
+                <span class="post-summary" data-post="{{post.html}}" onmouseover="show_popup(this)" onmouseout="hide_popup(this)" onclick="show_popup(this)">
+                    <a class="post-date {% if post.is_fresh %}post-fresh{% endif %}" href="{{post.link}}">{{post.date}}</a>
+                    {{post.summary|safe}}
+                    <div></div>
+                </span>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
+        {% endfor %}
     </div>
-    <script>
-        var tooltip_trigger_list = [].slice.call(document.querySelectorAll("[data-bs-toggle=\"tooltip\"]"));
-        tooltip_trigger_list.map(function (el) {
-            return new bootstrap.Tooltip(el)
-        });
-    </script>
     <!-- Yandex.Metrika counter -->
     <script type="text/javascript" >
         (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
         m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
         (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-    
+
         ym(89156690, "init", {
             clickmap:true,
             trackLinks:true,
