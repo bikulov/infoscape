@@ -18,7 +18,7 @@
 }
 
 [data-theme="dark"] {
-    --color-background: rgb(33, 37, 41);
+    --color-background: rgb(46, 51, 56);
     --color-text: white;
     --color-mark: lightgreen;
 

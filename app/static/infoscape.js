@@ -1,8 +1,7 @@
+document.documentElement.dataset.theme = localStorage.getItem("theme");
+
 function setTheme(theme) {
-    var body = document.getElementById("body");
-    var savedTheme = localStorage.getItem("theme");
-    theme = theme || savedTheme;
-    body.dataset.theme = theme;
+    document.documentElement.dataset.theme = theme;
     localStorage.setItem("theme", theme);
 }
 
@@ -17,7 +16,7 @@ function showPopup(el) {
 
     popup.innerHTML = el.dataset.post;
     popup.style.display = "block";
-    popup.style.left = pos.left + "px";
+    popup.style.left = pos.left + 20 + "px";
     popup.style.top = window.pageYOffset + pos.bottom + "px";
 }
 
