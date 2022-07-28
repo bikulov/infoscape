@@ -5,7 +5,7 @@ function show_popup(el) {
     popup.innerHTML = el.dataset.post;
     popup.style.display = "block";
     popup.style.left = pos.left + "px";
-    popup.style.top = pos.bottom + "px";
+    popup.style.top = window.pageYOffset + pos.bottom + "px";
 }
 
 function hide_popup(el) {

@@ -26,11 +26,11 @@
     <div class="popup" id="popup"></div>
     <div class="container">
         {% for widget in widgets %}
-        <div class="widget" onmouseout="hide_popup(this)">
+        <div class="widget">
             <div class="widget-inner">
-                <a href="{{widget.link}}" class="widget-title">{{widget.heading|safe}}</a>
+                <span class="widget-title" onmouseover="hide_popup(this)"><a href="{{widget.link}}">{{widget.heading|safe}}</a></span>
                 {% for post in widget.posts %}
-                <span class="post-summary" data-post="{{post.html}}" onmouseover="show_popup(this)" onclick="show_popup(this)">
+                <span class="post-summary" data-post="{{post.html}}" onmouseover="show_popup(this)">
                     <a class="post-date {% if post.is_fresh %}post-fresh{% endif %}" href="{{post.link}}">{{post.date}}</a>
                     {{post.summary|safe}}
                     <div></div>
