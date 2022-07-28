@@ -3,22 +3,52 @@
     src: url("/static/PTSans-Regular.ttf") format("truetype");
 }
 
+:root {
+    --color-background: rgba(108, 117, 125, 0.1);
+    --color-text: black;
+    --color-mark: lightgreen;
+
+    --color-navbar-background: rgb(33, 37, 41);
+    --color-navbar-active: rgb(10, 88, 202);
+    --color-navbar-text: rgba(255, 255, 255, 0.9);
+
+    --color-widget-background: rgb(248, 249, 250);
+    --color-widget-border: rgb(222, 226, 230);
+    --color-widget-title: rgb(10, 88, 202);
+}
+
+[data-theme="dark"] {
+    --color-background: rgb(33, 37, 41);
+    --color-text: white;
+    --color-mark: lightgreen;
+
+    --color-navbar-background: rgb(33, 37, 41);
+    --color-navbar-active: rgb(10, 88, 202);
+    --color-navbar-text: rgba(255, 255, 255, 0.9);
+
+    --color-widget-background: rgb(33, 37, 41);
+    --color-widget-border: rgb(56, 63, 70);
+    --color-widget-title: rgb(10, 88, 202);
+}
+
+
 body {
     font-family: "PTSans", sans-serif;
     font-size: 1rem;
-    background-color: rgba(108, 117, 125, 0.1);
+    background-color: var(--color-background);
+    color: var(--color-text);
     margin: 0;
     padding: 0;
 }
 
 mark {
-    background-color: lightgreen;
+    background-color: var(--color-mark);
 }
 
 .navbar {
     display: flex;
     justify-content: space-between;
-    background-color: rgb(33, 37, 41);
+    background-color: var(--color-navbar-background);
 }
 
 .navbar-brand {
@@ -45,12 +75,12 @@ mark {
 }
 
 .navbar-menu > .active {
-    background-color: rgb(10, 88, 202);
+    background-color: var(--color-navbar-active);
 }
 
 .navbar-menu-item > a {
     text-decoration: none;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--color-navbar-text);
 }
 
 .container {
@@ -84,18 +114,21 @@ mark {
 .widget-inner {
     padding: 0.5rem;
     height: calc(100% - 1rem);
-    background-color: rgb(248, 249, 250);
-    border: 1px solid rgb(222, 226, 230);
+    background-color: var(--color-widget-background);
+    border: 1px solid var(--color-widget-border);
     border-radius: 5px;
 }
 
 .widget-title {
-    color: rgb(10, 88, 202);
     display: block;
     text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.widget-title > a {
     text-transform: uppercase;
     text-decoration: none;
-    margin-bottom: 0.5rem;
+    color: var(--color-widget-title);
 }
 
 .post-summary {
@@ -122,8 +155,8 @@ mark {
     display: none;
     z-index: 1;
     padding: 0.5rem;
-    background-color: rgba(222, 226, 230);
-    border: 1px solid rgb(222, 226, 230);
+    background-color: var(--color-widget-border);
+    border: 1px solid var(--color-widget-border);
     border-radius: 5px;
 }
 

@@ -4,15 +4,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="/static/style.css" rel="stylesheet" type="text/css" media="all">
-    <script type="text/javascript" src="/static/popup.js"></script>
+    <link href="/static/infoscape.css" rel="stylesheet" type="text/css" media="all">
+    <script type="text/javascript" src="/static/infoscape.js"></script>
     <link rel="apple-touch-icon" href="/static/logo.png" type="image/png">
     <link rel="icon" href="/static/logo.svg" type="image/svg+xml">
     <link rel="icon" href="/static/logo.png" type="image/png">
     <title>{{title}}</title>
 </head>
 
-<body>
+<body id="body" data-theme="dark" onload="setTheme()">
     <nav class="navbar">
         <a class="navbar-brand" href="/"><img src="/static/logo.png" alt="logo"></a>
         <ul class="navbar-menu">
@@ -21,6 +21,7 @@
                 <a href="/p/{{page.slug}}">{{page.title}}</a>
             </li>
             {% endfor %}
+            <li class="navbar-menu-item" onclick="toggleTheme()"><a href="#">🌓︎</a></li>
         </ul>
     </nav>
     <div class="popup" id="popup"></div>
@@ -28,9 +29,9 @@
         {% for widget in widgets %}
         <div class="widget">
             <div class="widget-inner">
-                <span class="widget-title" onmouseover="hide_popup(this)"><a href="{{widget.link}}">{{widget.heading|safe}}</a></span>
+                <span class="widget-title" onmouseover="hidePopup(this)"><a href="{{widget.link}}">{{widget.heading|safe}}</a></span>
                 {% for post in widget.posts %}
-                <span class="post-summary" data-post="{{post.html}}" onmouseover="show_popup(this)">
+                <span class="post-summary" data-post="{{post.html}}" onmouseover="showPopup(this)">
                     <a class="post-date {% if post.is_fresh %}post-fresh{% endif %}" href="{{post.link}}">{{post.date}}</a>
                     {{post.summary|safe}}
                     <div></div>
