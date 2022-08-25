@@ -165,16 +165,17 @@ mark {
 }
 
 .popup {
-    width: 80%;
+    width: calc(100% - 4.5rem);
+    margin: 1rem;
 }
 
 @media(min-width:600px){
     .popup {
-        width: 40%;
+        width: calc(50% - 4.5rem);
     }
 }
 @media(min-width:900px){
     .popup {
-        width: 25%;
+        width: calc(100%/3 - 4.5rem);
     }
 }

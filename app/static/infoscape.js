@@ -16,7 +16,7 @@ function showPopup(el) {
 
     popup.innerHTML = el.dataset.post;
     popup.style.display = "block";
-    popup.style.left = pos.left + 20 + "px";
+    popup.style.left = pos.left + "px";
     popup.style.top = window.pageYOffset + pos.bottom + "px";
 }
 
