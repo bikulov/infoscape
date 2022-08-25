@@ -165,16 +165,16 @@ mark {
 }
 
 .popup {
-    width: 90%;
+    width: 80%;
 }
 
 @media(min-width:600px){
     .popup {
-        width: 45%;
+        width: 40%;
     }
 }
 @media(min-width:900px){
     .popup {
-        width: 30%;
+        width: 25%;
     }
 }
