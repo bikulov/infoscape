@@ -9,7 +9,7 @@ from collections import namedtuple
 from .posts_db import Post
 
 
-RenderedPost = namedtuple("RenderedPost", ["date", "is_fresh", "link", "summary", "html"])
+RenderedPost = namedtuple("RenderedPost", ["date", "is_fresh", "link", "summary", "html", "id"])
 RenderedSource = namedtuple("RenderedSource", ["heading", "link", "posts"])
 
 
@@ -45,7 +45,8 @@ class PostRenderer:
             is_fresh=is_fresh,
             link=post.link,
             summary=heading,
-            html=html
+            html=html,
+            id=hash(post.link),
         )
 
 

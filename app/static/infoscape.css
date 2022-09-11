@@ -133,6 +133,7 @@ mark {
 
 .post {
     display: inherit;
+    border-bottom: 1px solid var(--color-widget-border);
 }
 
 .post-summary {
@@ -146,11 +147,6 @@ mark {
 .post-details {
     display: none;
     padding: 0.5rem;
-}
-
-.post:hover > .post-details {
-    display: block;
-    z-index: 100;
 }
 
 .post-date {
