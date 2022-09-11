@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="/static/infoscape.js"></script>
     <link href="/static/infoscape.css" rel="stylesheet" type="text/css" media="all">
     <link rel="apple-touch-icon" href="/static/logo.png" type="image/png">
     <link rel="icon" href="/static/logo.svg" type="image/svg+xml">
@@ -29,9 +30,9 @@
             <div class="widget-inner">
                 <span class="widget-title"><a href="{{widget.link}}">{{widget.heading|safe}}</a></span>
                 {% for post in widget.posts %}
-                <div class="post">
+                <div class="post" data-id="{{post.id}}§" onclick="toggleDetails(this)">
                     <div class="post-summary"><a class="post-date {% if post.is_fresh %}post-fresh{% endif %}" href="{{post.link}}">{{post.date}}</a> {{post.summary|safe}}</div>
-                    <div class="post-details">{{post.html|safe}}</div>
+                    <div class="post-details" id="{{post.id}}">{{post.html|safe}}</div>
                 </div>
                 {% endfor %}
             </div>
