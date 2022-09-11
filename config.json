@@ -122,12 +122,6 @@
             "link": "https://t.me/s/rbc_news"
         },
         {
-            "title": "tjournal",
-            "id": "tjournal",
-            "parser": "telegram",
-            "link": "https://t.me/s/tjournal"
-        },
-        {
             "title": "vcnews",
             "id": "vcnews",
             "parser": "telegram",

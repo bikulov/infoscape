@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="/static/infoscape.css" rel="stylesheet" type="text/css" media="all">
-    <script type="text/javascript" src="/static/infoscape.js"></script>
     <link rel="apple-touch-icon" href="/static/logo.png" type="image/png">
     <link rel="icon" href="/static/logo.svg" type="image/svg+xml">
     <link rel="icon" href="/static/logo.png" type="image/png">
@@ -24,18 +23,16 @@
             <li class="navbar-menu-item" onclick="toggleTheme()"><a href="#">🌓︎</a></li>
         </ul>
     </nav>
-    <div class="popup" id="popup"></div>
     <div class="container">
         {% for widget in widgets %}
         <div class="widget">
             <div class="widget-inner">
-                <span class="widget-title" onmouseover="hidePopup(this)"><a href="{{widget.link}}">{{widget.heading|safe}}</a></span>
+                <span class="widget-title"><a href="{{widget.link}}">{{widget.heading|safe}}</a></span>
                 {% for post in widget.posts %}
-                <span class="post-summary" data-post="{{post.html}}" onmouseover="showPopup(this)">
-                    <a class="post-date {% if post.is_fresh %}post-fresh{% endif %}" href="{{post.link}}">{{post.date}}</a>
-                    {{post.summary|safe}}
-                    <div></div>
-                </span>
+                <div class="post">
+                    <div class="post-summary"><a class="post-date {% if post.is_fresh %}post-fresh{% endif %}" href="{{post.link}}">{{post.date}}</a> {{post.summary|safe}}</div>
+                    <div class="post-details">{{post.html|safe}}</div>
+                </div>
                 {% endfor %}
             </div>
         </div>
