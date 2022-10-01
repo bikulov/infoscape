@@ -43,8 +43,9 @@ class PageConfig:
 
 
 class Config:
-    def __init__(self, title: str, keywords: List[str], sources: List[dict]) -> None:
+    def __init__(self, title: str, hostname: str, keywords: List[str], sources: List[dict]) -> None:
         self.title = title
+        self.hostname = hostname
         self.keywords = keywords
         self.sources = [SourceConfig(**s) for s in sources]
         self.sources.sort(key=lambda s: s.title)

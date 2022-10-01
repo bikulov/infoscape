@@ -12,7 +12,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from jinja2 import Environment, PackageLoader, select_autoescape
 
-from library import Config, PostsDb, SourceRenderer, Auth
+from library import Config, PostsDb, SourceRenderer, Auth, TgBot
 from parsers import TelegramParser, TelegramParserException
 
 app = FastAPI()
@@ -44,10 +44,11 @@ async def fetch(args: argparse.Namespace) -> None:
             break
 
 
-@app.get("/get-token")
-async def get_token() -> RedirectResponse:
+@app.get("/set-token")
+async def set_token(value: str) -> RedirectResponse:
     response = RedirectResponse("/")
-    response.set_cookie(key="token", value=auth.get_token())
+    if auth.check_token(value):
+        response.set_cookie(key="token", value=value)
     return response
 
 
@@ -105,6 +106,14 @@ async def serve(args: argparse.Namespace) -> None:
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, workers=3)
 
 
+async def tg_bot(args: argparse.Namespace) -> None:
+    tg_bot = TgBot(site_host=config.hostname)
+    await tg_bot.set_commands()
+    while True:
+        await tg_bot.get_updates()
+        time.sleep(5)
+
+
 async def main() -> None:
     parser = argparse.ArgumentParser(prog="infoscape")
     parser.add_argument("--config", default="config.yaml", help="App configuration")
@@ -121,6 +130,9 @@ async def main() -> None:
         help="Run program in the infinite loop with specified seconds sleep",
     )
     fetch_parser.set_defaults(func=fetch)
+
+    tg_bot_parser = subparsers.add_parser("tg_bot", help="run tg_bot")
+    tg_bot_parser.set_defaults(func=tg_bot)
 
     args = parser.parse_args()
 
