@@ -6,5 +6,7 @@ services:
     restart: always
     volumes:
       - infoscape-data:/data
+    environment:
+     - AUTH_SECRET=secret
 volumes:
   infoscape-data:

@@ -30,8 +30,8 @@
             <div class="widget-inner">
                 <span class="widget-title"><a href="{{widget.link}}">{{widget.heading|safe}}</a></span>
                 {% for post in widget.posts %}
-                <div class="post" data-id="{{post.id}}" onclick="toggleDetails(this)">
-                    <div class="post-summary"><a class="post-date {% if post.is_fresh %}post-fresh{% endif %}" href="{{post.link}}">{{post.date}}</a> {{post.summary|safe}}</div>
+                <div class="post">
+                    <div class="post-summary" data-id="{{post.id}}" onclick="toggleDetails(this)"><a class="post-date {% if post.is_fresh %}post-fresh{% endif %}" href="{{post.link}}">{{post.date}}</a> {{post.summary|safe}}</div>
                     <div class="post-details" id="{{post.id}}">{{post.html|safe}}</div>
                 </div>
                 {% endfor %}

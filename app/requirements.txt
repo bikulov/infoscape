@@ -4,3 +4,5 @@ jinja2
 uvicorn
 fastapi
 pytz
+pyaml
+pyjwt

@@ -3,31 +3,31 @@ import os
 import asyncio
 import logging
 import time
+from typing import Optional
 
 
 import uvicorn
-from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, Cookie
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from jinja2 import Environment, PackageLoader, select_autoescape
 
-from library import Config, PostsDb, SourceRenderer
+from library import Config, PostsDb, SourceRenderer, Auth
 from parsers import TelegramParser, TelegramParserException
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory=os.path.join(os.path.dirname(__file__), "static")), name="static")
 
-config = Config.from_file_factory("config.json")
+config = Config.from_file_factory("config.yaml")
 logger = logging.getLogger("infoscape")
 db = PostsDb()
-
-
+auth = Auth()
 env = Environment(loader=PackageLoader("main"), autoescape=select_autoescape())
 
 
 async def fetch(args: argparse.Namespace) -> None:
     while True:
-        for source in config.sources.values():
+        for source in config.sources:
             logger.info(f"fetching {source.id}")
             if source.parser == "telegram":
                 try:
@@ -44,13 +44,23 @@ async def fetch(args: argparse.Namespace) -> None:
             break
 
 
+@app.get("/get-token")
+async def get_token() -> RedirectResponse:
+    response = RedirectResponse("/")
+    response.set_cookie(key="token", value=auth.get_token())
+    return response
+
+
 @app.get("/", response_class=HTMLResponse)
-async def index() -> str:
+async def index(token: Optional[str] = Cookie(default="")) -> str:
+    has_token = auth.check_token(token)
     source_renderer = SourceRenderer(config.keywords)
     template = env.get_template("index.html")
 
     widgets = []
-    for s in config.sources.values():
+    for s in config.sources:
+        if s.hidden and not has_token:
+            continue
         widgets.append(source_renderer(
             heading=s.title,
             link=s.link,
@@ -66,17 +76,21 @@ async def index() -> str:
 
 
 @app.get("/p/{page_slug}", response_class=HTMLResponse)
-async def get_page(page_slug: str = "top") -> str:
+async def get_page(page_slug: str, token: Optional[str] = Cookie(default="")) -> str:
+    has_token = auth.check_token(token)
     source_renderer = SourceRenderer(config.keywords)
     template = env.get_template("index.html")
 
     page = config.pages[page_slug]
     widgets = []
     for s in page.sources:
+        if s.hidden and not has_token:
+            continue
+
         widgets.append(source_renderer(
-            heading=config.sources[s].title,
-            link=config.sources[s].link,
-            posts=db.select([s], 10)
+            heading=s.title,
+            link=s.link,
+            posts=db.select([s.id], 10)
         ))
 
     return template.render(
@@ -93,7 +107,7 @@ async def serve(args: argparse.Namespace) -> None:
 
 async def main() -> None:
     parser = argparse.ArgumentParser(prog="infoscape")
-    parser.add_argument("--config", default="config.json", help="App configuration")
+    parser.add_argument("--config", default="config.yaml", help="App configuration")
     subparsers = parser.add_subparsers(help="mode")
 
     serve_parser = subparsers.add_parser("serve", help="serve news")
@@ -109,6 +123,9 @@ async def main() -> None:
     fetch_parser.set_defaults(func=fetch)
 
     args = parser.parse_args()
+
+    global config
+    config = Config.from_file_factory("config.yaml")
 
     await args.func(args)
 
