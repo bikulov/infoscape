@@ -1,7 +1,7 @@
 FROM python:3
 
 COPY app /app
-COPY config.yson /config.yson
+COPY config.yaml /config.yaml
 COPY entrypoint.sh /entrypoint.sh
 
 RUN pip install -r /app/requirements.txt
