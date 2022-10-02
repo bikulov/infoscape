@@ -58,14 +58,17 @@ class TgBot:
 
                 return False
 
+    async def process_update(self, update: Dict) -> None:
+        if command := TgBotCommand.parse(update):
+            token = self.auth.get_token()
+            link = f"https://{self.site_host}/set-token?value={token}"
+            await self.send_message(command.chat_id, link)
+
     async def get_updates(self) -> None:
         async with aiohttp.ClientSession(f"{self.url}") as session:
             async with session.get(f"/bot{self.token}/getUpdates?offset={self.offset}") as response:
                 if updates := await response.json():
                     for update in updates["result"]:
-                        if command := TgBotCommand.parse(update):
-                            token = self.auth.get_token()
-                            link = f"https://{self.site_host}/set-token?value={token}"
-                            await self.send_message(command.chat_id, link)
+                        await self.process_update(update)
 
                         self.offset = max(self.offset, update["update_id"] + 1)

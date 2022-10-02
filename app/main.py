@@ -7,7 +7,7 @@ from typing import Optional
 
 
 import uvicorn
-from fastapi import FastAPI, Cookie
+from fastapi import FastAPI, Cookie, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from jinja2 import Environment, PackageLoader, select_autoescape
@@ -23,6 +23,7 @@ logger = logging.getLogger("infoscape")
 db = PostsDb()
 auth = Auth()
 env = Environment(loader=PackageLoader("main"), autoescape=select_autoescape())
+tg_bot = TgBot(site_host=config.hostname)
 
 
 async def fetch(args: argparse.Namespace) -> None:
@@ -50,6 +51,15 @@ async def set_token(value: str) -> RedirectResponse:
     if auth.check_token(value):
         response.set_cookie(key="token", value=value)
     return response
+
+
+@app.post("/tg-webhook")
+async def tg_webhook(update: Request) -> str:
+    data = await update.json()
+
+    await tg_bot.process_update(data)
+
+    return ""
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -106,8 +116,7 @@ async def serve(args: argparse.Namespace) -> None:
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, workers=3)
 
 
-async def tg_bot(args: argparse.Namespace) -> None:
-    tg_bot = TgBot(site_host=config.hostname)
+async def tg_bot_pull(args: argparse.Namespace) -> None:
     await tg_bot.set_commands()
     while True:
         await tg_bot.get_updates()
@@ -131,8 +140,8 @@ async def main() -> None:
     )
     fetch_parser.set_defaults(func=fetch)
 
-    tg_bot_parser = subparsers.add_parser("tg_bot", help="run tg_bot")
-    tg_bot_parser.set_defaults(func=tg_bot)
+    tg_bot_pull_parser = subparsers.add_parser("tg_bot_pull", help="run tg_bot_pull")
+    tg_bot_pull_parser.set_defaults(func=tg_bot_pull)
 
     args = parser.parse_args()
 
