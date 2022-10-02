@@ -138,6 +138,8 @@ async def main() -> None:
     global config
     config = Config.from_file_factory("config.yaml")
 
+    await tg_bot.init_bot()
+
     await args.func(args)
 
 
