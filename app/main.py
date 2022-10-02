@@ -116,13 +116,6 @@ async def serve(args: argparse.Namespace) -> None:
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, workers=3)
 
 
-async def tg_bot_pull(args: argparse.Namespace) -> None:
-    await tg_bot.set_commands()
-    while True:
-        await tg_bot.get_updates()
-        time.sleep(5)
-
-
 async def main() -> None:
     parser = argparse.ArgumentParser(prog="infoscape")
     parser.add_argument("--config", default="config.yaml", help="App configuration")
@@ -139,9 +132,6 @@ async def main() -> None:
         help="Run program in the infinite loop with specified seconds sleep",
     )
     fetch_parser.set_defaults(func=fetch)
-
-    tg_bot_pull_parser = subparsers.add_parser("tg_bot_pull", help="run tg_bot_pull")
-    tg_bot_pull_parser.set_defaults(func=tg_bot_pull)
 
     args = parser.parse_args()
 
