@@ -20,7 +20,7 @@ class TgBotCommand:
     def parse(update: Dict) -> Optional["TgBotCommand"]:
         update_id = update.get("update_id")
         chat_id = update.get("message", {}).get("chat", {}).get("id")
-        text = update.get("message", {}).get("text")
+        text = update.get("message", {}).get("text").strip("/")
 
         bot_command = False
         for entity in update.get("message", {}).get("entities", []):
