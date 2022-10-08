@@ -144,6 +144,10 @@ mark {
     line-height: 1.2rem;
 }
 
+.post-unfolded {
+    opacity: 0.2;
+}
+
 .post-details {
     display: none;
     padding: 0.5rem;

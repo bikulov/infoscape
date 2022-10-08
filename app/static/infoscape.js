@@ -14,8 +14,10 @@ function toggleDetails(el) {
     var details = document.getElementById(el.dataset.id);
 
     if (details.style.display == "block") {
+        el.classList.remove("post-unfolded")
         details.style.display = "none";
     } else {
+        el.classList.add("post-unfolded");
         details.style.display = "block";
     }
 }
