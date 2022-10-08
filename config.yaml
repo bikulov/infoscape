@@ -15,31 +15,32 @@ sources:
   parser: telegram
   link: https://t.me/s/bbbreaking
   pages:
-  - top
+  - fav
 - title: 42 секунды
   id: ftsec
   parser: telegram
   link: https://t.me/s/ftsec
   pages:
-  - top
+  - fav
+  - tech
 - title: Москва 24
   id: infomoscow24
   parser: telegram
   link: https://t.me/s/infomoscow24
   pages:
-  - top
+  - fav
 - title: The Bell
   id: thebell_io
   parser: telegram
   link: https://t.me/s/thebell_io
   pages:
-  - top
+  - fav
 - title: БизнесФМ
   id: bfmnews
   parser: telegram
   link: https://t.me/s/bfmnews
   pages:
-  - top
+  - fav
 - title: Mash
   id: breakingmash
   parser: telegram
@@ -70,21 +71,27 @@ sources:
   id: addmeto
   parser: telegram
   link: https://t.me/s/addmeto
+  pages:
+  - tech
 - title: dataleak
   id: dataleak
   parser: telegram
   link: https://t.me/s/dataleak
+  pages:
+  - tech
 - title: SecLabNews
   id: SecLabNews
   parser: telegram
   link: https://t.me/s/SecLabNews
+  pages:
+  - tech
 - title: Легитимный
   id: legitimniy
   parser: telegram
   link: https://t.me/s/legitimniy
   hidden: true
   pages:
-  - top
+  - fav
 - title: РДВ
   id: AK47pfl
   parser: telegram
@@ -95,12 +102,14 @@ sources:
   id: daily_geek_news
   parser: telegram
   link: https://t.me/s/daily_geek_news
+  pages:
+  - tech
 - title: НЕЗЫГАРЬ
   id: russica2
   parser: telegram
   link: https://t.me/s/russica2
   pages:
-  - top
+  - fav
 - title: Темник
   id: polittemnik
   parser: telegram
@@ -123,6 +132,8 @@ sources:
   id: mobilereviewcom
   parser: telegram
   link: https://t.me/s/mobilereviewcom
+  pages:
+  - tech
 - title: Авиаторщина
   id: aviatorshina
   parser: telegram
@@ -142,16 +153,20 @@ sources:
   parser: telegram
   link: https://t.me/s/finkrolik
   pages:
-  - top
+  - fav
   - fin
 - title: opennet.ru
   id: opennet_ru
   parser: telegram
   link: https://t.me/s/opennet_ru
+  pages:
+  - tech
 - title: Linux.org.ru
   id: best_of_lor
   parser: telegram
   link: https://t.me/s/best_of_lor
+  pages:
+  - tech
 - title: Труба под Неглинной
   id: trubapodneglinnoy
   parser: telegram
@@ -189,7 +204,7 @@ sources:
   link: https://t.me/s/namarshe
   hidden: true
   pages:
-  - top
+  - fav
 - title: Резидент
   id: rezident_ua
   parser: telegram
@@ -230,3 +245,9 @@ sources:
   link: https://t.me/s/vv_volodin
   pages:
   - gov
+- title: Стартап дня. Александр Горный.
+  id: startupoftheday
+  parser: telegram
+  link: https://t.me/s/startupoftheday
+  pages:
+  - tech

@@ -47,7 +47,7 @@ async def fetch(args: argparse.Namespace) -> None:
 
 @app.get("/set-token")
 async def set_token(value: str) -> RedirectResponse:
-    response = RedirectResponse("/")
+    response = RedirectResponse("/p/fav")
     if auth.check_token(value):
         response.set_cookie(key="token", value=value)
     return response

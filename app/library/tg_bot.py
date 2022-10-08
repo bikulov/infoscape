@@ -65,9 +65,12 @@ class TgBot:
 
     async def process_update(self, update: Dict) -> None:
         if command := TgBotCommand.parse(update):
-            token = self.auth.get_token()
-            link = f"https://{self.site_host}/set-token?value={token}"
-            await self.send_message(command.chat_id, link)
+            if command.text == "link":
+                token = self.auth.get_token(lifetime=12 * 3600)
+                text = f"https://{self.site_host}/set-token?value={token}"
+            else:
+                text = "Unknown command, maybe you need /link?"
+            await self.send_message(command.chat_id, text)
 
     async def get_updates(self) -> None:
         async with aiohttp.ClientSession(f"{self.api_url}") as session:
