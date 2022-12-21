@@ -10,241 +10,95 @@ keywords:
 - Google
 - Гугл
 sources:
-- title: Раньше всех. Ну почти.
-  id: bbbreaking
-  parser: telegram
-  link: https://t.me/s/bbbreaking
-  pages:
-  - fav
+
 - title: 42 секунды
   id: ftsec
   parser: telegram
   link: https://t.me/s/ftsec
   pages:
-  - fav
-  - tech
+  - fast
 - title: Москва 24
   id: infomoscow24
   parser: telegram
   link: https://t.me/s/infomoscow24
   pages:
-  - fav
+  - fast
 - title: The Bell
   id: thebell_io
   parser: telegram
   link: https://t.me/s/thebell_io
   pages:
-  - fav
+  - fast
+
 - title: БизнесФМ
   id: bfmnews
   parser: telegram
   link: https://t.me/s/bfmnews
   pages:
-  - fav
-- title: Mash
-  id: breakingmash
-  parser: telegram
-  link: https://t.me/s/breakingmash
-- title: rusbrief
-  id: rusbrief
-  parser: telegram
-  link: https://t.me/s/rusbrief
-- title: banksta
-  id: banksta
-  parser: telegram
-  link: https://t.me/s/banksta
-  pages:
-  - fin
-- title: РБК
-  id: rbc_news
-  parser: telegram
-  link: https://t.me/s/rbc_news
-- title: vcnews
-  id: vcnews
-  parser: telegram
-  link: https://t.me/s/vcnews
+  - fast
 - title: РИА
   id: rian_ru
   parser: telegram
   link: https://t.me/s/rian_ru
+  pages:
+  - fast
+- title: Рыбарь
+  id: rybar
+  parser: telegram
+  link: https://t.me/s/rybar
+  pages:
+  - fast
+
+- title: На марше Z
+  id: namarshe
+  parser: telegram
+  link: https://t.me/s/namarshe
+  pages:
+  - fast
+- title: Резидент
+  id: rezident_ua
+  parser: telegram
+  link: https://t.me/s/rezident_ua
+  pages:
+  - fast
+- title: Легитимный
+  id: legitimniy
+  parser: telegram
+  link: https://t.me/s/legitimniy
+  pages:
+  - fast
+
 - title: addmeto
   id: addmeto
   parser: telegram
   link: https://t.me/s/addmeto
   pages:
   - tech
-- title: dataleak
-  id: dataleak
-  parser: telegram
-  link: https://t.me/s/dataleak
-  pages:
-  - tech
-- title: SecLabNews
-  id: SecLabNews
-  parser: telegram
-  link: https://t.me/s/SecLabNews
-  pages:
-  - tech
-- title: Легитимный
-  id: legitimniy
-  parser: telegram
-  link: https://t.me/s/legitimniy
-  hidden: true
-  pages:
-  - fav
-- title: РДВ
-  id: AK47pfl
-  parser: telegram
-  link: https://t.me/s/AK47pfl
-  pages:
-  - fin
 - title: Daily Geek News
   id: daily_geek_news
   parser: telegram
   link: https://t.me/s/daily_geek_news
   pages:
   - tech
-- title: НЕЗЫГАРЬ
-  id: russica2
-  parser: telegram
-  link: https://t.me/s/russica2
-  pages:
-  - fav
-- title: Темник
-  id: polittemnik
-  parser: telegram
-  link: https://t.me/s/polittemnik
-- title: AbloudRealtime
-  id: abloudrealtime
-  parser: telegram
-  link: https://t.me/s/abloudrealtime
-- title: Телеспутник
-  id: telesputnik
-  parser: telegram
-  link: https://t.me/s/telesputnik
-- title: Нецифровая экономика
-  id: antidigital
-  parser: telegram
-  link: https://t.me/s/antidigital
-  pages:
-  - fin
-- title: Mobile-Review.com
-  id: mobilereviewcom
-  parser: telegram
-  link: https://t.me/s/mobilereviewcom
-  pages:
-  - tech
-- title: Авиаторщина
-  id: aviatorshina
-  parser: telegram
-  link: https://t.me/s/aviatorshina
-- title: VODоворOTT
-  id: vodott
-  parser: telegram
-  link: https://t.me/s/vodott
-- title: bitkogan
-  id: bitkogan
-  parser: telegram
-  link: https://t.me/s/bitkogan
-  pages:
-  - fin
-- title: Кролик с Неглинной
-  id: finkrolik
-  parser: telegram
-  link: https://t.me/s/finkrolik
-  pages:
-  - fav
-  - fin
 - title: opennet.ru
   id: opennet_ru
   parser: telegram
   link: https://t.me/s/opennet_ru
   pages:
   - tech
+
 - title: Linux.org.ru
   id: best_of_lor
   parser: telegram
   link: https://t.me/s/best_of_lor
   pages:
   - tech
-- title: Труба под Неглинной
-  id: trubapodneglinnoy
+- title: БлоGнот
+  id: blognot
   parser: telegram
-  link: https://t.me/s/trubapodneglinnoy
+  link: https://t.me/s/blognot
   pages:
-  - fin
-- title: headlines
-  id: headlines_for_traders
-  parser: telegram
-  link: https://t.me/s/headlines_for_traders
-  pages:
-  - fin
-- title: Жирные коты
-  id: fatcat18
-  parser: telegram
-  link: https://t.me/s/fatcat18
-  pages:
-  - fin
-- title: Деньги в банкe
-  id: bankser
-  parser: telegram
-  link: https://t.me/s/bankser
-  pages:
-  - fin
-- title: Банк России
-  id: centralbank_russia
-  parser: telegram
-  link: https://t.me/s/centralbank_russia
-  pages:
-  - fin
-  - gov
-- title: На марше Z
-  id: namarshe
-  parser: telegram
-  link: https://t.me/s/namarshe
-  hidden: true
-  pages:
-  - fav
-- title: Резидент
-  id: rezident_ua
-  parser: telegram
-  link: https://t.me/s/rezident_ua
-  hidden: true
-- title: RKadyrov_95
-  id: RKadyrov_95
-  parser: telegram
-  link: https://t.me/s/RKadyrov_95
-  pages:
-  - gov
-- title: Артемий Лебедев
-  id: temablog
-  parser: telegram
-  link: https://t.me/s/temablog
-- title: Кровавая барыня
-  id: bloodysx
-  parser: telegram
-  link: https://t.me/s/bloodysx
-- title: Varlamov News
-  id: varlamov
-  parser: telegram
-  link: https://t.me/s/varlamov
-- title: КАК-ТО ВОТ ТАК
-  id: kaktovottak
-  parser: telegram
-  link: https://t.me/s/kaktovottak
-  hidden: true
-- title: Горелкин
-  id: webstrangler
-  parser: telegram
-  link: https://t.me/s/webstrangler
-  pages:
-  - gov
-- title: Вячеслав Володин
-  id: vv_volodin
-  parser: telegram
-  link: https://t.me/s/vv_volodin
-  pages:
-  - gov
+  - tech
 - title: Стартап дня. Александр Горный.
   id: startupoftheday
   parser: telegram

@@ -28,21 +28,24 @@ tg_bot = TgBot(site_host=config.hostname)
 
 async def fetch(args: argparse.Namespace) -> None:
     while True:
-        for source in config.sources:
-            logger.info(f"fetching {source.id}")
-            if source.parser == "telegram":
-                try:
-                    parser = TelegramParser(source.id, source.link)
-                    async for post in parser.get_posts():
-                        db.add(post)
-                except TelegramParserException:
-                    logger.exception(f"Error while fetching source {source.id}")
+        try:
+            for source in config.sources:
+                logger.info(f"fetching {source.id}")
+                if source.parser == "telegram":
+                    try:
+                        parser = TelegramParser(source.id, source.link)
+                        async for post in parser.get_posts():
+                            db.add(post)
+                    except TelegramParserException:
+                        logger.exception(f"Error while fetching source {source.id}")
 
-        if args.daemonize > 0:
-            logger.info(f"sleeping {args.daemonize} seconds")
-            time.sleep(args.daemonize)
-        else:
-            break
+            if args.daemonize > 0:
+                logger.info(f"sleeping {args.daemonize} seconds")
+                time.sleep(args.daemonize)
+            else:
+                break
+        except Exception:
+            logger.exception(f"General error while fetching updates")
 
 
 @app.get("/set-token")
