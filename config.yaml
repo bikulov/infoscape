@@ -11,16 +11,16 @@ keywords:
 - Гугл
 sources:
 
-- title: 42 секунды
-  id: ftsec
+- title: БизнесФМ
+  id: bfmnews
   parser: telegram
-  link: https://t.me/s/ftsec
+  link: https://t.me/s/bfmnews
   pages:
   - fast
-- title: Москва 24
-  id: infomoscow24
+- title: Коммерсантъ
+  id: kommersant
   parser: telegram
-  link: https://t.me/s/infomoscow24
+  link: https://t.me/s/kommersant
   pages:
   - fast
 - title: The Bell
@@ -30,22 +30,22 @@ sources:
   pages:
   - fast
 
-- title: БизнесФМ
-  id: bfmnews
+- title: 42 секунды
+  id: ftsec
   parser: telegram
-  link: https://t.me/s/bfmnews
+  link: https://t.me/s/ftsec
   pages:
   - fast
-- title: РИА
-  id: rian_ru
+- title: addmeto
+  id: addmeto
   parser: telegram
-  link: https://t.me/s/rian_ru
+  link: https://t.me/s/addmeto
   pages:
-  - fast
-- title: Рыбарь
-  id: rybar
+  - tech
+- title: Банкста
+  id: banksta
   parser: telegram
-  link: https://t.me/s/rybar
+  link: https://t.me/s/banksta
   pages:
   - fast
 
@@ -67,41 +67,3 @@ sources:
   link: https://t.me/s/legitimniy
   pages:
   - fast
-
-- title: addmeto
-  id: addmeto
-  parser: telegram
-  link: https://t.me/s/addmeto
-  pages:
-  - tech
-- title: Daily Geek News
-  id: daily_geek_news
-  parser: telegram
-  link: https://t.me/s/daily_geek_news
-  pages:
-  - tech
-- title: opennet.ru
-  id: opennet_ru
-  parser: telegram
-  link: https://t.me/s/opennet_ru
-  pages:
-  - tech
-
-- title: Linux.org.ru
-  id: best_of_lor
-  parser: telegram
-  link: https://t.me/s/best_of_lor
-  pages:
-  - tech
-- title: БлоGнот
-  id: blognot
-  parser: telegram
-  link: https://t.me/s/blognot
-  pages:
-  - tech
-- title: Стартап дня. Александр Горный.
-  id: startupoftheday
-  parser: telegram
-  link: https://t.me/s/startupoftheday
-  pages:
-  - tech
