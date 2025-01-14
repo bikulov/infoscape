@@ -17,10 +17,10 @@ sources:
   link: https://t.me/s/bfmnews
   pages:
   - fast
-- title: Коммерсантъ
-  id: kommersant
+- title: Раньше всех. Ну почти.
+  id: bbbreaking
   parser: telegram
-  link: https://t.me/s/kommersant
+  link: https://t.me/s/bbbreaking
   pages:
   - fast
 - title: The Bell
@@ -30,16 +30,16 @@ sources:
   pages:
   - fast
 
-- title: 42 секунды
-  id: ftsec
+- title: эйай ньюз
+  id: ai_newz
   parser: telegram
-  link: https://t.me/s/ftsec
+  link: https://t.me/s/ai_newz
   pages:
   - fast
-- title: addmeto
-  id: addmeto
+- title: bemoreai
+  id: bemoreai
   parser: telegram
-  link: https://t.me/s/addmeto
+  link: https://t.me/s/bemoreai
   pages:
   - tech
 - title: Банкста
