@@ -36,10 +36,10 @@ sources:
   link: https://t.me/s/ai_newz
   pages:
   - fast
-- title: bemoreai
-  id: bemoreai
+- title: addmeto
+  id: addmeto
   parser: telegram
-  link: https://t.me/s/bemoreai
+  link: https://t.me/s/addmeto
   pages:
   - tech
 - title: Банкста
@@ -65,5 +65,24 @@ sources:
   id: legitimniy
   parser: telegram
   link: https://t.me/s/legitimniy
+  pages:
+  - fast
+
+- title: Win/Win
+  id: victorstepanych
+  parser: telegram
+  link: https://t.me/s/victorstepanych
+  pages:
+  - fast
+- title: Мир сегодня с Юрием Подолякой
+  id: yurasumy
+  parser: telegram
+  link: https://t.me/s/yurasumy
+  pages:
+  - fast
+- title: Рыбарь
+  id: rybar
+  parser: telegram
+  link: https://t.me/s/rybar
   pages:
   - fast
