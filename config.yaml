@@ -16,73 +16,73 @@ sources:
   parser: telegram
   link: https://t.me/s/bfmnews
   pages:
-  - fast
-- title: Раньше всех. Ну почти.
-  id: bbbreaking
+  - tg
+- title: Банкста
+  id: banksta
   parser: telegram
-  link: https://t.me/s/bbbreaking
+  link: https://t.me/s/banksta
   pages:
-  - fast
-- title: The Bell
-  id: thebell_io
+  - tg
+- title: Москвач
+  id: moscowach
   parser: telegram
-  link: https://t.me/s/thebell_io
+  link: https://t.me/s/moscowach
   pages:
-  - fast
+  - tg
 
 - title: эйай ньюз
   id: ai_newz
   parser: telegram
   link: https://t.me/s/ai_newz
   pages:
-  - fast
-- title: addmeto
-  id: addmeto
+  - tg
+- title: Александр Панчин
+  id: ScienceInquisition
   parser: telegram
-  link: https://t.me/s/addmeto
+  link: https://t.me/s/ScienceInquisition
   pages:
-  - tech
-- title: Банкста
-  id: banksta
+  - tg
+- title: ТОПЛЕС
+  id: toplesofficial
   parser: telegram
-  link: https://t.me/s/banksta
+  link: https://t.me/s/toplesofficial/
   pages:
-  - fast
+  - tg
 
-- title: На марше Z
-  id: namarshe
+- title: Утечки информации
+  id: dataleak
   parser: telegram
-  link: https://t.me/s/namarshe
+  link: https://t.me/s/dataleak/
   pages:
-  - fast
-- title: Резидент
-  id: rezident_ua
+  - tg
+- title: Не баг, а фича
+  id: bugfeature
   parser: telegram
-  link: https://t.me/s/rezident_ua
+  link: https://t.me/s/bugfeature/
   pages:
-  - fast
-- title: Легитимный
-  id: legitimniy
+  - tg
+- title: Wylsacom Red
+  id: Wylsared
   parser: telegram
-  link: https://t.me/s/legitimniy
+  link: https://t.me/s/Wylsared/
   pages:
-  - fast
+  - tg
 
-- title: Win/Win
-  id: victorstepanych
+- title: Код Дурова
+  id: d_code
   parser: telegram
-  link: https://t.me/s/victorstepanych
+  link: https://t.me/s/d_code/
   pages:
-  - fast
-- title: Мир сегодня с Юрием Подолякой
-  id: yurasumy
+  - tg
+- title: GigaChat
+  id: official_gigachat
   parser: telegram
-  link: https://t.me/s/yurasumy
+  link: https://t.me/s/official_gigachat/
   pages:
-  - fast
-- title: Рыбарь
-  id: rybar
+  - tg
+- title: Хабр
+  id: habr_com
   parser: telegram
-  link: https://t.me/s/rybar
+  link: https://t.me/s/habr_com/
   pages:
-  - fast
+  - tg
