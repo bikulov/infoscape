@@ -13,14 +13,24 @@ UV_CACHE_DIR=.uv-cache uv sync --dev
 
 ```bash
 mkdir -p data
-AUTH_SECRET=secret TG_TOKEN=na_for_test UV_CACHE_DIR=.uv-cache uv run python app/main.py serve
+AUTH_SECRET=dev-secret-change-me-please-1234 TG_TOKEN=na_for_test UV_CACHE_DIR=.uv-cache uv run python app/main.py serve
 ```
+
+`TG_TOKEN=na_for_test` keeps the bot disabled for local runs while the site still serves pages.
 
 ## Checks
 
 ```bash
 ./test.sh
 ```
+
+## Endpoints
+
+- `GET /healthz` for a lightweight container health check
+
+## Docker
+
+`docker-compose.yml` now leaves `AUTH_SECRET` empty and `TG_TOKEN` at `na_for_test` unless you set real env vars, so the web app can start without a configured Telegram bot.
 
 Todo:
 - [x] several tabs with different topics

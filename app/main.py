@@ -1,130 +1,251 @@
 import argparse
-import os
 import asyncio
+import inspect
 import logging
-import time
-from typing import Optional
-
+import os
+from contextlib import asynccontextmanager
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Optional, Sequence, cast
 
 import uvicorn
-from fastapi import FastAPI, Cookie, Request
+from fastapi import APIRouter, Cookie, FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
-from jinja2 import Environment, PackageLoader, select_autoescape
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-from library import Config, PostsDb, SourceRenderer, Auth, TgBot
-from parsers import TelegramParser, TelegramParserException
+from library import Auth, Config, FetchService, PostsDb, Settings, SourceRenderer, TgBot
+from library.config import SourceConfig
 
-app = FastAPI()
-app.mount(
-    "/static",
-    StaticFiles(directory=os.path.join(os.path.dirname(__file__), "static")),
-    name="static",
-)
 
-config = Config.from_file_factory("config.yaml")
+BASE_DIR = Path(__file__).resolve().parent
+STATIC_DIR = BASE_DIR / "static"
+TEMPLATE_DIR = BASE_DIR / "templates"
+POSTS_PER_WIDGET = 10
 logger = logging.getLogger("infoscape")
-db = PostsDb()
-auth = Auth()
-env = Environment(loader=PackageLoader("main"), autoescape=select_autoescape())
-tg_bot = TgBot(site_host=config.hostname)
+router = APIRouter()
 
 
-async def fetch(args: argparse.Namespace) -> None:
-    while True:
+@dataclass
+class RuntimeServices:
+    config: Config
+    db: PostsDb
+    auth: Auth
+    renderer: SourceRenderer
+    templates: Environment
+    tg_bot: Optional[TgBot]
+
+
+def create_app(settings: Optional[Settings] = None) -> FastAPI:
+    resolved_settings = settings or Settings.from_env(
+        config_path=os.getenv("INFOSCAPE_CONFIG", "config.yaml"),
+        db_path=os.getenv("INFOSCAPE_DB_PATH", "data/production.sqlite"),
+    )
+
+    @asynccontextmanager
+    async def lifespan(app: FastAPI):
+        runtime = build_runtime(resolved_settings)
+        app.state.runtime = runtime
+
+        if runtime.tg_bot is not None:
+            await runtime.tg_bot.start()
+            try:
+                await runtime.tg_bot.init_bot()
+            except Exception:
+                logger.exception(
+                    "Telegram bot initialization failed; continuing without bot"
+                )
+                await runtime.tg_bot.close()
+                runtime.tg_bot = None
+        elif resolved_settings.tg_token and not resolved_settings.auth_enabled:
+            logger.warning(
+                "Telegram bot disabled because AUTH_SECRET is not configured"
+            )
+
         try:
-            for source in config.sources:
-                logger.info(f"fetching {source.id}")
-                if source.parser == "telegram":
-                    try:
-                        parser = TelegramParser(source.id, source.link)
-                        async for post in parser.get_posts():
-                            db.add(post)
-                    except TelegramParserException:
-                        logger.exception(f"Error while fetching source {source.id}")
+            yield
+        finally:
+            if runtime.tg_bot is not None:
+                await runtime.tg_bot.close()
+            runtime.db.close()
 
-            if args.daemonize > 0:
-                logger.info(f"sleeping {args.daemonize} seconds")
-                time.sleep(args.daemonize)
-            else:
-                break
-        except Exception:
-            logger.exception("General error while fetching updates")
+    app = FastAPI(lifespan=lifespan)
+    app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+    app.include_router(router)
+    return app
 
 
-@app.get("/set-token")
-async def set_token(value: str) -> RedirectResponse:
-    response = RedirectResponse("/p/fav")
-    if auth.check_token(value):
-        response.set_cookie(key="token", value=value)
+def build_runtime(settings: Settings) -> RuntimeServices:
+    config = Config.from_file(settings.config_path)
+    auth = Auth(settings.auth_secret)
+    tg_bot = None
+    if settings.bot_enabled:
+        tg_bot = TgBot(site_host=config.hostname, token=settings.tg_token, auth=auth)
+
+    return RuntimeServices(
+        config=config,
+        db=PostsDb(settings.db_path),
+        auth=auth,
+        renderer=SourceRenderer(list(config.keywords)),
+        templates=Environment(
+            loader=FileSystemLoader(str(TEMPLATE_DIR)),
+            autoescape=select_autoescape(("html", "xml")),
+        ),
+        tg_bot=tg_bot,
+    )
+
+
+def get_runtime(request: Request) -> RuntimeServices:
+    return cast(RuntimeServices, request.app.state.runtime)
+
+
+@router.get("/healthz")
+async def healthcheck() -> dict:
+    return {"status": "ok"}
+
+
+@router.get("/set-token")
+async def set_token(request: Request, value: str) -> RedirectResponse:
+    runtime = get_runtime(request)
+    response = RedirectResponse("/")
+    if runtime.auth.check_token(value):
+        response.set_cookie(
+            key="token",
+            value=value,
+            httponly=True,
+            samesite="lax",
+        )
     return response
 
 
-@app.post("/tg-webhook")
-async def tg_webhook(update: Request) -> str:
-    data = await update.json()
+@router.post("/tg-webhook")
+async def tg_webhook(request: Request) -> str:
+    runtime = get_runtime(request)
+    if runtime.tg_bot is None:
+        return ""
 
-    await tg_bot.process_update(data)
-
+    data = await request.json()
+    await runtime.tg_bot.process_update(data)
     return ""
 
 
-@app.get("/", response_class=HTMLResponse)
-async def index(token: Optional[str] = Cookie(default="")) -> str:
-    has_token = auth.check_token(token)
-    source_renderer = SourceRenderer(config.keywords)
-    template = env.get_template("index.html")
-
-    widgets = []
-    for s in config.sources:
-        if s.hidden and not has_token:
-            continue
-        widgets.append(
-            source_renderer(heading=s.title, link=s.link, posts=db.select([s.id], 10))
-        )
-
-    return template.render(
-        title=config.title,
+@router.get("/", response_class=HTMLResponse)
+async def index(request: Request, token: Optional[str] = Cookie(default="")) -> str:
+    runtime = get_runtime(request)
+    return render_page(
+        runtime=runtime,
         page_slug="/",
-        pages=config.pages.values(),
-        widgets=widgets,
+        sources=runtime.config.sources,
+        token=token,
     )
 
 
-@app.get("/p/{page_slug}", response_class=HTMLResponse)
-async def get_page(page_slug: str, token: Optional[str] = Cookie(default="")) -> str:
-    has_token = auth.check_token(token)
-    source_renderer = SourceRenderer(config.keywords)
-    template = env.get_template("index.html")
+@router.get("/p/{page_slug}", response_class=HTMLResponse)
+async def get_page(
+    request: Request, page_slug: str, token: Optional[str] = Cookie(default="")
+) -> str:
+    runtime = get_runtime(request)
+    page = runtime.config.pages.get(page_slug)
+    if page is None:
+        raise HTTPException(status_code=404, detail="Page not found")
 
-    page = config.pages[page_slug]
-    widgets = []
-    for s in page.sources:
-        if s.hidden and not has_token:
-            continue
-
-        widgets.append(
-            source_renderer(heading=s.title, link=s.link, posts=db.select([s.id], 10))
-        )
-
-    return template.render(
-        title=config.title,
+    return render_page(
+        runtime=runtime,
         page_slug=page_slug,
-        pages=config.pages.values(),
+        sources=page.sources,
+        token=token,
+    )
+
+
+def render_page(
+    runtime: RuntimeServices,
+    page_slug: str,
+    sources: Sequence[SourceConfig],
+    token: Optional[str],
+) -> str:
+    has_token = runtime.auth.check_token(token)
+    visible_sources = [source for source in sources if not source.hidden or has_token]
+    posts_by_source = runtime.db.select_grouped(
+        [source.id for source in visible_sources],
+        POSTS_PER_WIDGET,
+    )
+    widgets = [
+        runtime.renderer(
+            heading=source.title,
+            link=source.link,
+            posts=posts_by_source.get(source.id, []),
+        )
+        for source in visible_sources
+    ]
+
+    template = runtime.templates.get_template("index.html")
+    return template.render(
+        title=runtime.config.title,
+        page_slug=page_slug,
+        pages=runtime.config.pages.values(),
         widgets=widgets,
     )
 
 
-async def serve(args: argparse.Namespace) -> None:
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, workers=3)
+async def fetch(args: argparse.Namespace) -> None:
+    settings = Settings.from_env(config_path=args.config, db_path=args.db_path)
+    runtime = build_runtime(settings)
+    fetch_service = FetchService(runtime.config, runtime.db)
+
+    try:
+        while True:
+            stored_posts = await fetch_service.run_once()
+            logger.info("Stored %s posts", stored_posts)
+
+            if args.daemonize <= 0:
+                break
+
+            logger.info("Sleeping %s seconds", args.daemonize)
+            await asyncio.sleep(args.daemonize)
+    finally:
+        runtime.db.close()
 
 
-async def main() -> None:
+def serve(args: argparse.Namespace) -> None:
+    os.environ["INFOSCAPE_CONFIG"] = os.path.abspath(args.config)
+    os.environ["INFOSCAPE_DB_PATH"] = os.path.abspath(args.db_path)
+    uvicorn.run(
+        "main:create_app",
+        app_dir=str(BASE_DIR),
+        factory=True,
+        host=args.host,
+        port=args.port,
+        reload=args.reload,
+        workers=args.workers,
+        log_level=args.log_level.lower(),
+    )
+
+
+def main() -> None:
     parser = argparse.ArgumentParser(prog="infoscape")
     parser.add_argument("--config", default="config.yaml", help="App configuration")
+    parser.add_argument(
+        "--db-path",
+        default="data/production.sqlite",
+        help="SQLite database location",
+    )
+    parser.add_argument("--log-level", default="INFO", help="Application log level")
     subparsers = parser.add_subparsers(help="mode")
 
     serve_parser = subparsers.add_parser("serve", help="serve news")
+    serve_parser.add_argument("--host", default="0.0.0.0", help="Bind host")
+    serve_parser.add_argument("--port", type=int, default=8000, help="Bind port")
+    serve_parser.add_argument(
+        "--reload",
+        action="store_true",
+        help="Enable autoreload for development",
+    )
+    serve_parser.add_argument(
+        "--workers",
+        type=int,
+        default=1,
+        help="Number of worker processes",
+    )
     serve_parser.set_defaults(func=serve)
 
     fetch_parser = subparsers.add_parser("fetch", help="fetch news")
@@ -132,21 +253,28 @@ async def main() -> None:
         "--daemonize",
         type=int,
         default=600,
-        help="Run program in the infinite loop with specified seconds sleep",
+        help="Run in a loop with the provided sleep interval in seconds",
     )
     fetch_parser.set_defaults(func=fetch)
 
     args = parser.parse_args()
+    if not hasattr(args, "func"):
+        parser.error("Please choose a mode: serve or fetch")
+    if args.reload and args.workers != 1:
+        parser.error("--reload cannot be combined with --workers > 1")
 
-    global config
-    config = Config.from_file_factory("config.yaml")
+    logger.setLevel(getattr(logging, args.log_level.upper(), logging.INFO))
+    result = args.func(args)
+    if inspect.iscoroutine(result):
+        asyncio.run(result)
 
-    await tg_bot.init_bot()
 
-    await args.func(args)
+app = create_app()
 
 
 if __name__ == "__main__":
-    logging.basicConfig()
-    logger.setLevel(logging.INFO)
-    asyncio.run(main())
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+    )
+    main()

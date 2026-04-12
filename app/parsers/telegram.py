@@ -1,11 +1,14 @@
-from asyncio.log import logger
+import logging
 from datetime import datetime
-from typing import AsyncGenerator, Generator, Optional
+from typing import Generator, List, Optional
 
 import aiohttp
 from bs4 import BeautifulSoup, Tag
 
 from library import Post
+
+
+logger = logging.getLogger(__name__)
 
 
 def extract_text(node: Tag) -> list[str]:
@@ -40,6 +43,7 @@ class TelegramParser:
             for s in style.split(";"):
                 if s.startswith("background-image"):
                     return s[len("background-image:url('") : -2]
+        return None
 
     @staticmethod
     def get_timestamp(tgme_widget: Tag) -> int:
@@ -75,6 +79,7 @@ class TelegramParser:
                 line_prefix = ">" + line_prefix if line_prefix else "> "
 
             return "\n\n".join(posts)
+        return None
 
     def parse_html(self, content: str) -> Generator[Post, None, None]:
         soup = BeautifulSoup(content, "html.parser")
@@ -97,17 +102,32 @@ class TelegramParser:
                         else:
                             break
 
-                if image_url := self.get_image_url(div):
-                    text += f'\n<img src="{image_url}"></img>'
+                image_url = self.get_image_url(div)
 
-                yield Post(self.source_id, link, timestamp, heading, text)
+                yield Post(
+                    self.source_id,
+                    link,
+                    timestamp,
+                    heading,
+                    text,
+                    image_url=image_url,
+                )
             except TelegramParserException:
-                logger.error(f"Except while parsing {div}")
+                logger.warning("Could not parse telegram widget for %s", self.source_id)
 
-    async def get_posts(self) -> AsyncGenerator[Post, None]:
-        async with aiohttp.ClientSession() as session:
-            async with session.get(self.link) as response:
-                html = await response.text()
+    async def get_posts(
+        self, session: Optional[aiohttp.ClientSession] = None
+    ) -> List[Post]:
+        if session is not None:
+            return await self._get_posts(session)
 
-                for a in self.parse_html(html):
-                    yield a
+        timeout = aiohttp.ClientTimeout(total=15)
+        async with aiohttp.ClientSession(timeout=timeout) as owned_session:
+            return await self._get_posts(owned_session)
+
+    async def _get_posts(self, session: aiohttp.ClientSession) -> List[Post]:
+        async with session.get(self.link) as response:
+            response.raise_for_status()
+            html = await response.text()
+
+        return list(self.parse_html(html))

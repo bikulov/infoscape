@@ -18,7 +18,8 @@
         "link": "https://t.me/infoscape_test/3",
         "timestamp": 1653419293,
         "heading": "сообщение с картинкой",
-        "text": "сообщение с картинкой\n<img src=\"https://cdn4.telegram-cdn.org/file/JYf-qfujXX6ldi1Sxf9AnETWceXm0jGwGKM8IYm31cjx8RgchkN_HOtRdHpLiE8SnMaSE1l579NBHgQebxVqh0PcsVB7goGBFC5E0o1ACr5tBH8aQxVG1KAdnz3jvnAZMK-oCXSVxglLjsGFmzaEZoh0XjTW6jeXp_i6kHv0eYUgCbxh-Ygk1OWXSpBmZVs25DKdu05nBtcOPCmXvb3GaK6Ofu3KVgT_cdap5m6L2dKnp11823VFWEOg2jIdX4V31mj4Pshl1LBUxW3m5GBHXGdilQkf-PZcSPSj2NG9MoTYQ9VncofprbSEVuv--JbKCBDxFdQ8aobSzAAx0CD3Pw.jpg\"></img>"
+        "text": "сообщение с картинкой",
+        "image_url": "https://cdn4.telegram-cdn.org/file/JYf-qfujXX6ldi1Sxf9AnETWceXm0jGwGKM8IYm31cjx8RgchkN_HOtRdHpLiE8SnMaSE1l579NBHgQebxVqh0PcsVB7goGBFC5E0o1ACr5tBH8aQxVG1KAdnz3jvnAZMK-oCXSVxglLjsGFmzaEZoh0XjTW6jeXp_i6kHv0eYUgCbxh-Ygk1OWXSpBmZVs25DKdu05nBtcOPCmXvb3GaK6Ofu3KVgT_cdap5m6L2dKnp11823VFWEOg2jIdX4V31mj4Pshl1LBUxW3m5GBHXGdilQkf-PZcSPSj2NG9MoTYQ9VncofprbSEVuv--JbKCBDxFdQ8aobSzAAx0CD3Pw.jpg"
     },
     {
         "source_id": "infoscape_test",

@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-export AUTH_SECRET="${AUTH_SECRET:-secret}"
+export AUTH_SECRET="${AUTH_SECRET:-0123456789abcdef0123456789abcdef}"
 export TG_TOKEN="${TG_TOKEN:-na_for_test}"
 export UV_CACHE_DIR="${UV_CACHE_DIR:-.uv-cache}"
 

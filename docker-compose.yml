@@ -8,7 +8,7 @@ services:
     ports:
       - 8000:8000
     environment:
-     - AUTH_SECRET=<random_string>
-     - TG_TOKEN=<telegram_token>
+      AUTH_SECRET: ${AUTH_SECRET:-}
+      TG_TOKEN: ${TG_TOKEN:-na_for_test}
 volumes:
   infoscape-data:

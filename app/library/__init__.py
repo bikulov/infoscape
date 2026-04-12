@@ -3,3 +3,5 @@ from .auth import Auth  # noqa
 from .tg_bot import TgBot  # noqa
 from .posts_db import Post, PostsDb  # noqa
 from .source_renderer import SourceRenderer  # noqa
+from .fetcher import FetchService  # noqa
+from .settings import Settings  # noqa
