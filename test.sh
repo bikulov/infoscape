@@ -1,16 +1,12 @@
 #!/usr/bin/env bash
 
-mypy \
-    --install-types \
-    --ignore-missing-imports \
-    --disallow-untyped-defs \
-    --disallow-incomplete-defs \
-    --disallow-untyped-calls \
-    --disallow-untyped-decorators \
-    --no-warn-no-return \
-    app
+set -euo pipefail
 
-pytest -vvv
+export AUTH_SECRET="${AUTH_SECRET:-secret}"
+export TG_TOKEN="${TG_TOKEN:-na_for_test}"
+export UV_CACHE_DIR="${UV_CACHE_DIR:-.uv-cache}"
 
-flake8 --count --select=E9,F63,F7,F82 --show-source --statistics app
-flake8 --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics app/
+uv run mypy app
+uv run pytest -vvv
+uv run flake8 --count --select=E9,F63,F7,F82 --show-source --statistics app
+uv run flake8 --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics app

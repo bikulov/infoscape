@@ -1,5 +1,6 @@
 import json
 import os
+from typing import Optional
 
 import pytest
 from bs4 import BeautifulSoup
@@ -25,6 +26,10 @@ def test_parse_html() -> None:
     assert posts == canon_posts
 
 
+def parse_fragment(html: str) -> BeautifulSoup:
+    return BeautifulSoup(html, "html.parser")
+
+
 @pytest.mark.parametrize(
     "html, url",
     (
@@ -38,8 +43,8 @@ def test_parse_html() -> None:
         ("""<div class="other_tag" href="#"></div>""", None),
     ),
 )
-def test_extract_image_url(html: str, url: str) -> None:
-    assert TelegramParser.get_image_url(BeautifulSoup(html, "html.parser")) == url
+def test_extract_image_url(html: str, url: Optional[str]) -> None:
+    assert TelegramParser.get_image_url(parse_fragment(html)) == url
 
 
 @pytest.mark.parametrize(
@@ -53,18 +58,13 @@ def test_extract_image_url(html: str, url: str) -> None:
     ),
 )
 def test_get_timestamp(html: str, timestamp: int) -> None:
-    assert TelegramParser.get_timestamp(BeautifulSoup(html, "html.parser")) == timestamp
+    assert TelegramParser.get_timestamp(parse_fragment(html)) == timestamp
 
 
-@pytest.mark.parametrize(
-    "html, timestamp",
-    (
-        ("""<div class="other_tag" href="#"></div>""", None),
-    ),
-)
-def test_get_timestamp_exception(html: str, timestamp: int) -> None:
+@pytest.mark.parametrize("html", ("""<div class="other_tag" href="#"></div>""",))
+def test_get_timestamp_exception(html: str) -> None:
     with pytest.raises(TelegramParserException):
-        TelegramParser.get_timestamp(BeautifulSoup(html, "html.parser"))
+        TelegramParser.get_timestamp(parse_fragment(html))
 
 
 @pytest.mark.parametrize(
@@ -78,15 +78,12 @@ def test_get_timestamp_exception(html: str, timestamp: int) -> None:
     ),
 )
 def test_get_link(html: str, link: str) -> None:
-    assert TelegramParser.get_link(BeautifulSoup(html, "html.parser")) == link
+    assert TelegramParser.get_link(parse_fragment(html)) == link
 
 
 @pytest.mark.parametrize(
-    "html, link",
-    (
-        ("""<a class="other_tag" href="https://t.me/infoscape_test/3"></a>""", None),
-    ),
+    "html", ("""<a class="other_tag" href="https://t.me/infoscape_test/3"></a>""",)
 )
-def test_get_link_exception(html: str, link: str) -> None:
+def test_get_link_exception(html: str) -> None:
     with pytest.raises(TelegramParserException):
-        TelegramParser.get_link(BeautifulSoup(html, "html.parser"))
+        TelegramParser.get_link(parse_fragment(html))

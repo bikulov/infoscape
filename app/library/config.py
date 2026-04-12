@@ -7,8 +7,12 @@ class SourceConfig:
 
     def __init__(
         self,
-        title: str, id: str, parser: str, link: str,
-        pages: Optional[List] = None, hidden: bool = False
+        title: str,
+        id: str,
+        parser: str,
+        link: str,
+        pages: Optional[List] = None,
+        hidden: bool = False,
     ) -> None:
         self.title = title  # Link title
         self.id = id  # Internal unique news source name
@@ -43,7 +47,9 @@ class PageConfig:
 
 
 class Config:
-    def __init__(self, title: str, hostname: str, keywords: List[str], sources: List[dict]) -> None:
+    def __init__(
+        self, title: str, hostname: str, keywords: List[str], sources: List[dict]
+    ) -> None:
         self.title = title
         self.hostname = hostname
         self.keywords = keywords
@@ -63,7 +69,7 @@ class Config:
         # TODO: check config integrity
 
     @staticmethod
-    def from_file_factory(filename: str) -> 'Config':
+    def from_file_factory(filename: str) -> "Config":
         with open(filename) as fin:
             config = yaml.safe_load(fin)
             return Config(**config)

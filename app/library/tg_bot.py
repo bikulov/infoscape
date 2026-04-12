@@ -36,20 +36,22 @@ class TgBot:
         self.api_url = url
         self.token = token
         self.offset = 0
-        self.commands = [
-            {"command": "link", "description": "Return link with token"}
-        ]
+        self.commands = [{"command": "link", "description": "Return link with token"}]
         self.auth = Auth()
         self.site_host = site_host
 
     async def init_bot(self) -> bool:
         status = False
         async with aiohttp.ClientSession(f"{self.api_url}") as session:
-            async with session.post(f"/bot{self.token}/setMyCommands?commands={json.dumps(self.commands)}") as response:
+            async with session.post(
+                f"/bot{self.token}/setMyCommands?commands={json.dumps(self.commands)}"
+            ) as response:
                 if not await response.json():
                     raise Exception("Error setting commands")
 
-            async with session.post(f"/bot{self.token}/setWebhook?url={self.site_host}/tg-webhook") as response:
+            async with session.post(
+                f"/bot{self.token}/setWebhook?url={self.site_host}/tg-webhook"
+            ) as response:
                 if not await response.json():
                     raise Exception("Error setting webhook")
 
@@ -57,7 +59,9 @@ class TgBot:
 
     async def send_message(self, chat_id: int, text: str) -> bool:
         async with aiohttp.ClientSession(f"{self.api_url}") as session:
-            async with session.get(f"/bot{self.token}/sendMessage?chat_id={chat_id}&text={text}") as response:
+            async with session.get(
+                f"/bot{self.token}/sendMessage?chat_id={chat_id}&text={text}"
+            ) as response:
                 if _ := await response.json():
                     return True
 
@@ -74,7 +78,9 @@ class TgBot:
 
     async def get_updates(self) -> None:
         async with aiohttp.ClientSession(f"{self.api_url}") as session:
-            async with session.get(f"/bot{self.token}/getUpdates?offset={self.offset}") as response:
+            async with session.get(
+                f"/bot{self.token}/getUpdates?offset={self.offset}"
+            ) as response:
                 if updates := await response.json():
                     for update in updates["result"]:
                         await self.process_update(update)

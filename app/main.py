@@ -16,7 +16,11 @@ from library import Config, PostsDb, SourceRenderer, Auth, TgBot
 from parsers import TelegramParser, TelegramParserException
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory=os.path.join(os.path.dirname(__file__), "static")), name="static")
+app.mount(
+    "/static",
+    StaticFiles(directory=os.path.join(os.path.dirname(__file__), "static")),
+    name="static",
+)
 
 config = Config.from_file_factory("config.yaml")
 logger = logging.getLogger("infoscape")
@@ -45,7 +49,7 @@ async def fetch(args: argparse.Namespace) -> None:
             else:
                 break
         except Exception:
-            logger.exception(f"General error while fetching updates")
+            logger.exception("General error while fetching updates")
 
 
 @app.get("/set-token")
@@ -75,11 +79,9 @@ async def index(token: Optional[str] = Cookie(default="")) -> str:
     for s in config.sources:
         if s.hidden and not has_token:
             continue
-        widgets.append(source_renderer(
-            heading=s.title,
-            link=s.link,
-            posts=db.select([s.id], 10)
-        ))
+        widgets.append(
+            source_renderer(heading=s.title, link=s.link, posts=db.select([s.id], 10))
+        )
 
     return template.render(
         title=config.title,
@@ -101,11 +103,9 @@ async def get_page(page_slug: str, token: Optional[str] = Cookie(default="")) ->
         if s.hidden and not has_token:
             continue
 
-        widgets.append(source_renderer(
-            heading=s.title,
-            link=s.link,
-            posts=db.select([s.id], 10)
-        ))
+        widgets.append(
+            source_renderer(heading=s.title, link=s.link, posts=db.select([s.id], 10))
+        )
 
     return template.render(
         title=config.title,
@@ -149,5 +149,4 @@ async def main() -> None:
 if __name__ == "__main__":
     logging.basicConfig()
     logger.setLevel(logging.INFO)
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
+    asyncio.run(main())

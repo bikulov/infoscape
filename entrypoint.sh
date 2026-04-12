@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-mkdir -p /data && cd /
+mkdir -p data
 
-python /app/main.py fetch &
-
-python /app/main.py serve
+uv run python main.py fetch &
+uv run python main.py serve

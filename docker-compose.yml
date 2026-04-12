@@ -1,11 +1,12 @@
-version: "3.4"
 services:
   infoscape:
     build: .
     container_name: infoscape
     restart: always
     volumes:
-      - infoscape-data:/data
+      - infoscape-data:/app/data
+    ports:
+      - 8000:8000
     environment:
      - AUTH_SECRET=<random_string>
      - TG_TOKEN=<telegram_token>

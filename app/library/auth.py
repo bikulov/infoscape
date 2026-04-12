@@ -14,9 +14,7 @@ class Auth:
         self.algorithm = "HS256"
 
     def get_token(self, lifetime: int = 3600) -> str:
-        payload = {
-            "valid-til": int(time.time()) + lifetime
-        }
+        payload = {"valid-til": int(time.time()) + lifetime}
         return jwt.encode(payload, self.secret, algorithm=self.algorithm)
 
     def check_token(self, token: Optional[str]) -> bool:

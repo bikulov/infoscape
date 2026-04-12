@@ -6,40 +6,54 @@ keywords:
 - Яндекс
 - Moscow
 - Москва
-- Group-IB
 - Google
 - Гугл
+- Сбер
 sources:
 
 - title: БизнесФМ
   id: bfmnews
   parser: telegram
-  link: https://t.me/s/bfmnews
+  link: https://t.me/s/bfmnews/
   pages:
   - tg
 - title: Банкста
   id: banksta
   parser: telegram
-  link: https://t.me/s/banksta
+  link: https://t.me/s/banksta/
   pages:
   - tg
 - title: Москвач
   id: moscowach
   parser: telegram
-  link: https://t.me/s/moscowach
+  link: https://t.me/s/moscowach/
   pages:
   - tg
 
-- title: эйай ньюз
-  id: ai_newz
+
+- title: Новости Москвы
+  id: moscowmap
   parser: telegram
-  link: https://t.me/s/ai_newz
+  link: https://t.me/s/moscowmap/
   pages:
   - tg
+- title: Бовт знает
+  id: bovtznaet
+  parser: telegram
+  link: https://t.me/s/bovtznaet/
+  pages:
+  - tg
+- title: Сondottiero
+  id: condottieros
+  parser: telegram
+  link: https://t.me/s/condottieros/
+  pages:
+  - tg
+
 - title: Александр Панчин
   id: ScienceInquisition
   parser: telegram
-  link: https://t.me/s/ScienceInquisition
+  link: https://t.me/s/ScienceInquisition/
   pages:
   - tg
 - title: ТОПЛЕС
@@ -48,36 +62,23 @@ sources:
   link: https://t.me/s/toplesofficial/
   pages:
   - tg
-
-- title: Утечки информации
-  id: dataleak
+- title: "1337"
+  id: media1337
   parser: telegram
-  link: https://t.me/s/dataleak/
-  pages:
-  - tg
-- title: Не баг, а фича
-  id: bugfeature
-  parser: telegram
-  link: https://t.me/s/bugfeature/
-  pages:
-  - tg
-- title: Wylsacom Red
-  id: Wylsared
-  parser: telegram
-  link: https://t.me/s/Wylsared/
+  link: https://t.me/s/media1337/
   pages:
   - tg
 
-- title: Код Дурова
-  id: d_code
+- title: opennet.ru
+  id: opennet_ru
   parser: telegram
-  link: https://t.me/s/d_code/
+  link: https://t.me/s/opennet_ru/
   pages:
   - tg
-- title: GigaChat
-  id: official_gigachat
+- title: Типичный программист
+  id: tproger
   parser: telegram
-  link: https://t.me/s/official_gigachat/
+  link: https://t.me/s/tproger/
   pages:
   - tg
 - title: Хабр

@@ -1,10 +1,10 @@
-FROM python:3
+FROM ghcr.io/astral-sh/uv:python3.14-alpine
 
 COPY app /app
-COPY config.yaml /config.yaml
-COPY entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh config.yaml /app/
 
-RUN pip install --upgrade pip
-RUN pip install -r /app/requirements.txt
+WORKDIR /app
+ENV UV_CACHE_DIR=.uv-cache
+RUN uv sync --frozen --no-dev
 
-CMD bash /entrypoint.sh
+CMD ["sh", "entrypoint.sh"]

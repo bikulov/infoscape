@@ -9,7 +9,9 @@ from collections import namedtuple
 from .posts_db import Post
 
 
-RenderedPost = namedtuple("RenderedPost", ["date", "is_fresh", "link", "summary", "html", "id"])
+RenderedPost = namedtuple(
+    "RenderedPost", ["date", "is_fresh", "link", "summary", "html", "id"]
+)
 RenderedSource = namedtuple("RenderedSource", ["heading", "link", "posts"])
 
 
@@ -26,7 +28,7 @@ class PostRenderer:
 
     def __call__(self, post: Post) -> RenderedPost:
         local_dt = self.get_msk_date(post.timestamp)
-        is_fresh = (local_dt.date() == datetime.today().date())
+        is_fresh = local_dt.date() == datetime.today().date()
 
         date = local_dt.strftime("%m.%d")
         if is_fresh:

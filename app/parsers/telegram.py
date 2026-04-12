@@ -1,19 +1,18 @@
-from typing import List
 from asyncio.log import logger
 from datetime import datetime
-from typing import Generator, Optional, AsyncGenerator
+from typing import AsyncGenerator, Generator, Optional
 
 import aiohttp
-from bs4 import BeautifulSoup, ResultSet
+from bs4 import BeautifulSoup, Tag
 
 from library import Post
 
 
-def extract_text(bs_set: ResultSet) -> List[str]:
-    for br in bs_set.find_all("br"):
+def extract_text(node: Tag) -> list[str]:
+    for br in node.find_all("br"):
         br.replace_with("\n")
 
-    text = bs_set.get_text(" ")
+    text = node.get_text(" ")
 
     lines = []
     for line in text.splitlines():
@@ -33,31 +32,39 @@ class TelegramParser:
         self.link = link
 
     @staticmethod
-    def get_image_url(tgme_widget: ResultSet) -> Optional[str]:
-        if image_a := tgme_widget.find("a", "tgme_widget_message_photo_wrap"):
-            for s in image_a.get("style").split(";"):
+    def get_image_url(tgme_widget: Tag) -> Optional[str]:
+        if image_a := tgme_widget.find("a", class_="tgme_widget_message_photo_wrap"):
+            style = image_a.get("style")
+            if not isinstance(style, str):
+                return None
+            for s in style.split(";"):
                 if s.startswith("background-image"):
-                    return s[len("background-image:url('"): -2]
+                    return s[len("background-image:url('") : -2]
 
     @staticmethod
-    def get_timestamp(tgme_widget: ResultSet) -> int:
-        if a_date := tgme_widget.find("a", "tgme_widget_message_date"):
-            dt = a_date.find("time").get("datetime")
-            return int(datetime.strptime(dt, "%Y-%m-%dT%H:%M:%S%z").timestamp())
+    def get_timestamp(tgme_widget: Tag) -> int:
+        if a_date := tgme_widget.find("a", class_="tgme_widget_message_date"):
+            time_tag = a_date.find("time")
+            if time_tag:
+                dt = time_tag.get("datetime")
+                if isinstance(dt, str):
+                    return int(datetime.strptime(dt, "%Y-%m-%dT%H:%M:%S%z").timestamp())
 
         raise TelegramParserException("Could not parse timestamp")
 
     @staticmethod
-    def get_link(tgme_widget: ResultSet) -> str:
-        if a_date := tgme_widget.find("a", "tgme_widget_message_date"):
-            return a_date.get("href")
+    def get_link(tgme_widget: Tag) -> str:
+        if a_date := tgme_widget.find("a", class_="tgme_widget_message_date"):
+            href = a_date.get("href")
+            if isinstance(href, str):
+                return href
 
         raise TelegramParserException("Could not parse link")
 
     @staticmethod
-    def get_body(tgme_widget: ResultSet) -> Optional[str]:
+    def get_body(tgme_widget: Tag) -> Optional[str]:
         messages = []
-        for div_text in tgme_widget.find_all("div", "tgme_widget_message_text"):
+        for div_text in tgme_widget.find_all("div", class_="tgme_widget_message_text"):
             messages.append(extract_text(div_text))
 
         if messages:
@@ -72,7 +79,7 @@ class TelegramParser:
     def parse_html(self, content: str) -> Generator[Post, None, None]:
         soup = BeautifulSoup(content, "html.parser")
 
-        for div in soup.find_all("div", "tgme_widget_message_wrap"):
+        for div in soup.find_all("div", class_="tgme_widget_message_wrap"):
             try:
                 timestamp = self.get_timestamp(div)
                 link = self.get_link(div)
@@ -83,7 +90,9 @@ class TelegramParser:
                     text = body
                     for line in body.splitlines():
                         #  try to find better heading (not single tag on the line)
-                        if not heading or (heading.startswith("#") and len(heading.split()) < 3):
+                        if not heading or (
+                            heading.startswith("#") and len(heading.split()) < 3
+                        ):
                             heading = line
                         else:
                             break
