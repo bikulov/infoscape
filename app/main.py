@@ -260,7 +260,7 @@ def main() -> None:
     args = parser.parse_args()
     if not hasattr(args, "func"):
         parser.error("Please choose a mode: serve or fetch")
-    if args.reload and args.workers != 1:
+    if getattr(args, "reload", False) and getattr(args, "workers", 1) != 1:
         parser.error("--reload cannot be combined with --workers > 1")
 
     logger.setLevel(getattr(logging, args.log_level.upper(), logging.INFO))
