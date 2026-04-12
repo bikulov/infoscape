@@ -3,7 +3,7 @@ set -euo pipefail
 
 mkdir -p data
 
-uv run python main.py fetch &
+uv run python app/main.py fetch &
 fetch_pid=$!
 
 cleanup() {
@@ -12,4 +12,4 @@ cleanup() {
 
 trap cleanup EXIT INT TERM
 
-uv run python main.py serve
+uv run python app/main.py serve

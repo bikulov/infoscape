@@ -1,7 +1,9 @@
+from pathlib import Path
+
 from library.posts_db import Post, PostsDb
 
 
-def test_select_supports_multiple_sources(tmp_path) -> None:
+def test_select_supports_multiple_sources(tmp_path: Path) -> None:
     db = PostsDb(str(tmp_path / "posts.sqlite"))
     try:
         db.add_many(
@@ -23,7 +25,7 @@ def test_select_supports_multiple_sources(tmp_path) -> None:
         db.close()
 
 
-def test_select_grouped_limits_each_source(tmp_path) -> None:
+def test_select_grouped_limits_each_source(tmp_path: Path) -> None:
     db = PostsDb(str(tmp_path / "posts.sqlite"))
     try:
         db.add_many(
@@ -42,7 +44,7 @@ def test_select_grouped_limits_each_source(tmp_path) -> None:
         db.close()
 
 
-def test_select_keyword_searches_heading_and_text(tmp_path) -> None:
+def test_select_keyword_searches_heading_and_text(tmp_path: Path) -> None:
     db = PostsDb(str(tmp_path / "posts.sqlite"))
     try:
         db.add_many(

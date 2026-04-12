@@ -6,7 +6,7 @@ import os
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional, Sequence, cast
+from typing import AsyncIterator, Optional, Sequence, cast
 
 import uvicorn
 from fastapi import APIRouter, Cookie, FastAPI, HTTPException, Request
@@ -43,7 +43,7 @@ def create_app(settings: Optional[Settings] = None) -> FastAPI:
     )
 
     @asynccontextmanager
-    async def lifespan(app: FastAPI):
+    async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         runtime = build_runtime(resolved_settings)
         app.state.runtime = runtime
 
